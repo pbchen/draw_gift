@@ -84,6 +84,16 @@ class Uc_service {
             return $user;
         }
     }
+    
+    /**
+     * 获取用户信息
+     * @access public
+     * @return 空或者用户信息
+     * 
+     */
+    public function get_user() {
+        return $this->obj->session->userdata(ALW_SESSION);
+    }
 
     /**
      * 获取用户id信息
@@ -98,15 +108,32 @@ class Uc_service {
             return -1;
         }
     }
-
+    
     /**
-     * 获取用户信息
-     * @access public
-     * @return 空或者用户信息
-     * 
+     * 获取用户名称
+     * @param type $default
+     * @return type
      */
-    public function get_user() {
-        return $this->obj->session->userdata(ALW_SESSION);
+    public function get_user_name($default='游客'){
+        $user = $this->obj->session->userdata(ALW_SESSION);
+        if($user){
+            return $user['nick_name']?$user['nick_name']:$user['user_name'];
+        }else{
+            return $default;
+        }
+    }
+    
+    /**
+     * 获取用户角色
+     * @return type
+     */
+    public function get_user_role(){
+        $user = $this->obj->session->userdata(ALW_SESSION);
+        if($user){
+            return $user['role'];
+        }else{
+            return null;
+        }
     }
     
     /**

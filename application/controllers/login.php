@@ -26,15 +26,15 @@ class Login extends CI_Controller {
      * 登录
      */
     public function login() {
-        $user_name = $this->input->post('user_name');
+        $user_name = $this->input->post('username');
         $password = $this->input->post('password');
         if($password && $user_name){
             $user = $this->login_model->login($user_name,$password);
             if($user && $this->uc_service->save_user($user)){
-                redirect('/member/user_info');
+                redirect('/member/index');
             }else{
                 $d = array('title' => '用户登录', 'msg' => '用户名或密码错误！');
-                $this->load->view('login/login',$d);
+                $this->load->view('login',$d);
             }
         }else{
             $d = array('title' => '用户登录', 'msg' => '');

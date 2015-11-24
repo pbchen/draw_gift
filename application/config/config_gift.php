@@ -25,7 +25,7 @@ $config['upload_path'] = "/tmp";
 
 $config['alw_uc'] = array(
     'auto_check'=>false,
-    'login'=>'/login/index',
+    'login'=>'/login/login',
 );
 
 
