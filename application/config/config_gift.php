@@ -24,9 +24,10 @@ if( ! defined('PER_PAGE') ){
 $config['upload_path'] = "/tmp";
 
 $config['alw_uc'] = array(
-    'auto_check'=>false,
+    'auto_check'=>true,
     'login'=>'/login/login',
 );
+
 
 
 

@@ -7,7 +7,7 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="<?php echo RES; ?>img/user_avatar.png" alt="" class="user_avatar">
-                        <?php echo $this->uc_service->get_user_name();?> <b class="caret"></b>
+                        <?php echo $this->uc_service->get_user_nickname();?> <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
                         <li><a href="/member/index">我的个人信息</a></li>

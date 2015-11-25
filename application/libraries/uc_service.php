@@ -110,6 +110,20 @@ class Uc_service {
     }
     
     /**
+     * 获取用户昵称
+     * @param type $default
+     * @return type
+     */
+    public function get_user_nickname($default='游客'){
+        $user = $this->obj->session->userdata(ALW_SESSION);
+        if($user){
+            return $user['nick_name']?$user['nick_name']:$user['user_name'];
+        }else{
+            return $default;
+        }
+    }
+    
+    /**
      * 获取用户名称
      * @param type $default
      * @return type
@@ -117,7 +131,35 @@ class Uc_service {
     public function get_user_name($default='游客'){
         $user = $this->obj->session->userdata(ALW_SESSION);
         if($user){
-            return $user['nick_name']?$user['nick_name']:$user['user_name'];
+            return $user['user_name'];
+        }else{
+            return $default;
+        }
+    }
+    
+    /**
+     * 获取用户邮箱
+     * @param type $default
+     * @return type
+     */
+    public function get_user_email($default=''){
+        $user = $this->obj->session->userdata(ALW_SESSION);
+        if($user){
+            return $user['email'];
+        }else{
+            return $default;
+        }
+    }
+    
+    /**
+     * 获取用户邮箱
+     * @param type $default
+     * @return type
+     */
+    public function get_user_phone($default=''){
+        $user = $this->obj->session->userdata(ALW_SESSION);
+        if($user){
+            return $user['phone'];
         }else{
             return $default;
         }

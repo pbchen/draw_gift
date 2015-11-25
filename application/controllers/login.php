@@ -40,7 +40,6 @@ class Login extends CI_Controller {
             $d = array('title' => '用户登录', 'msg' => '');
             $this->load->view('login',$d);
         }
-        
     }
     
     /**

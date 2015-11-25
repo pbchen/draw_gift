@@ -22,6 +22,13 @@ if( ! function_exists('nav_item_display') ){
     }
 }
 
+//角色ID转化汉字
+if( ! function_exists('role_translate') ){
+    function role_translate($role_id,$role_config){
+        return isset($role_config[$role_id])?$role_config[$role_id]:'';
+    }
+}
+
 //guid
 if( ! function_exists('create_guid') ){
     mt_srand((double)microtime()*10000);//optional for php 4.2.0 and up.
