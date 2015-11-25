@@ -57,13 +57,14 @@ class Member extends CI_Controller {
         $user = $this->uc_service->get_user();
         $d = array('title' => '修改资料', 'msg' => '','user'=>$user);
         if($_POST){
-            $updata['nick_name'] = $this->input->post('nick_name');
-            $updata['email'] = $this->input->post('email');
-            $updata['phone'] = $this->input->post('phone');
+            $updata['nick_name'] = $user['nick_name'] = $this->input->post('nick_name');
+            $updata['email'] = $user['email'] = $this->input->post('email');
+            $updata['phone'] = $user['phone'] = $this->input->post('phone');
             $this->user_model->update_user_info($user['id'],$updata);
+            $this->uc_service->save_user($user);
             redirect('/member/index');
         }
-        $this->layout->view('member/user_info', $d);
+        $this->layout->view('member/change_info', $d);
     }
 
 }
