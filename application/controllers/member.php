@@ -38,7 +38,8 @@ class Member extends CI_Controller {
                 }else{
                     $md5_pwd = md5($new_pwd);
                     $this->user_model->update_user_info($user['id'],array('password'=>$md5_pwd));
-                    redirect('/member/index');
+                    $this->uc_service->logout();
+                    redirect('/login/login');
                 }
             }else{
                 $d = array('title' => '修改密码','msg'=>'密码不能为空！','old_msg'=>'');
@@ -48,10 +49,21 @@ class Member extends CI_Controller {
         }
         $this->layout->view('member/change_password', $d);
     }
-
+    
+    /**
+     * 修改用户信息
+     */
     public function change_info() {
-        $d = array('title' => '修改资料', 'msg' => '测试');
-        $this->layout->view('welcome_message', $d);
+        $user = $this->uc_service->get_user();
+        $d = array('title' => '修改资料', 'msg' => '','user'=>$user);
+        if($_POST){
+            $updata['nick_name'] = $this->input->post('nick_name');
+            $updata['email'] = $this->input->post('email');
+            $updata['phone'] = $this->input->post('phone');
+            $this->user_model->update_user_info($user['id'],$updata);
+            redirect('/member/index');
+        }
+        $this->layout->view('member/user_info', $d);
     }
 
 }

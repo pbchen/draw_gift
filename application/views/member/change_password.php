@@ -1,10 +1,11 @@
 <h3 class="heading">修改密码</h3>
 <style type="text/css">
-    .controls strong{line-height:2;}	
+    .controls strong{line-height:2;}
+    div.row-fluid{background-color: white;}
 </style>
 
 <div class="row-fluid">
-    <div class="span6">
+    <div class="span6" style="background-color: white;">
         <form class="form-horizontal well" name="form" action="/member/change_password" method="post" onSubmit="return check();">
             <fieldset>
                 <div class="form-group">
