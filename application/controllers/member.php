@@ -34,17 +34,17 @@ class Member extends CI_Controller {
             if($new_pwd){
                 $user = $this->uc_service->get_user();
                 if(md5($old_pwd)!=$user['password']){
-                    $d = array('title' => '修改密码','old_msg'=>'旧密码不正确！');
+                    $d = array('title' => '修改密码','old_msg'=>'旧密码不正确！','msg'=>'');
                 }else{
                     $md5_pwd = md5($new_pwd);
                     $this->user_model->update_user_info($user['id'],array('password'=>$md5_pwd));
                     redirect('/member/index');
                 }
             }else{
-                $d = array('title' => '修改密码','msg'=>'密码不能为空！');
+                $d = array('title' => '修改密码','msg'=>'密码不能为空！','old_msg'=>'');
             }
         }else{
-            $d = array('title' => '修改密码','msg'=>'');
+            $d = array('title' => '修改密码','msg'=>'','old_msg'=>'');
         }
         $this->layout->view('member/change_password', $d);
     }

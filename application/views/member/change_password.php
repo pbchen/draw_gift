@@ -10,16 +10,20 @@
                 <div class="form-group">
                     <label class="col-lg-2 control-label">旧密码</label>
                     <div class="col-sm-3 col-md-3">
-                        <input type="password" id="password" class="form-control"/>
+                        <input type="password" id="old-password" class="form-control"/>
                     </div>
-                    <label class="col-lg-2 control-label" id="password-error" style="text-align: left;color: red;"></label>
+                    <label class="col-lg-2 control-label" id="password-error" style="text-align: left;color: red;">
+                        <?php if($old_msg) echo $old_msg;?>
+                    </label>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">新密码</label>
                     <div class="col-sm-3 col-md-3">
-                        <input type="password" id="newpwd" class="form-control"/>
+                        <input type="password" id="password" class="form-control"/>
                     </div>
-                    <label class="col-lg-2 control-label" id="newpwd-error" style="text-align: left;color: red;"></label>
+                    <label class="col-lg-2 control-label" id="password-error" style="text-align: left;color: red;">
+                        <?php if($msg) echo $msg;?>
+                    </label>
                 </div>
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
