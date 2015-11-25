@@ -34,7 +34,7 @@ class Member extends CI_Controller {
             if($new_pwd){
                 $user = $this->uc_service->get_user();
                 if(md5($old_pwd)!=$user['password']){
-                    $d = array('title' => '修改密码','msg'=>'旧密码不正确！');
+                    $d = array('title' => '修改密码','old_msg'=>'旧密码不正确！');
                 }else{
                     $md5_pwd = md5($new_pwd);
                     $this->user_model->update_user_info($user['id'],array('password'=>$md5_pwd));
