@@ -23,7 +23,10 @@ class goods_manage extends CI_Controller {
      * 添加商品
      */
     public function add_goods(){
-        $d = array('title' => '商品管理','msg'=>'');
+        //no_load_bootstrap_plugins 
+        //不加载 bootstrap.plugins.min.js 加载后影响图片上传插件 
+        //默认是加载的
+        $d = array('title' => '商品管理','msg'=>'','no_load_bootstrap_plugins'=>true);
         $this->layout->view('goods_manage/add_goods', $d);
     }
     

@@ -11,7 +11,9 @@
 <!-- main bootstrap js -->
 <script src="<?php echo RES; ?>bootstrap/js/bootstrap.min.js"></script>
 <!-- bootstrap plugins -->
+<?php if( ! isset($no_load_bootstrap_plugins) || $no_load_bootstrap_plugins==false):?>
 <script src="<?php echo RES; ?>js/bootstrap.plugins.min.js"></script>
+<?php endif;?>
 <!-- typeahead -->
 <script src="<?php echo RES; ?>lib/typeahead/typeahead.min.js"></script>
 <!-- code prettifier -->

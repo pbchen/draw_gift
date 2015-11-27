@@ -121,11 +121,11 @@
 <script src="<?php echo RES; ?>js/forms/jquery.autosize.min.js"></script>
 <!-- user profile functions -->
 <script src="<?php echo RES; ?>js/pages/gebo_user_profile.js"></script>
+<!---------------------------------加载图片使用------------------------->
 <script src="<?php echo RES; ?>lib/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
-
-<script src="http://blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js"></script>
+<script src="<?php echo RES; ?>lib/jquery-file-upload/js/load-image.all.min.js"></script>
 <!-- The Canvas to Blob plugin is included for image resizing functionality -->
-<script src="http://blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>
+<script src="<?php echo RES; ?>lib/jquery-file-upload/js/canvas-to-blob.min.js"></script>
 <script src="<?php echo RES; ?>lib/jquery-file-upload/js/jquery.iframe-transport.js"></script>
 <!-- The basic File Upload plugin -->
 <script src="<?php echo RES; ?>lib/jquery-file-upload/js/jquery.fileupload.js"></script>
@@ -139,6 +139,8 @@
 <script src="<?php echo RES; ?>lib/jquery-file-upload/js/jquery.fileupload-video.js"></script>
 <!-- The File Upload validation plugin -->
 <script src="<?php echo RES; ?>lib/jquery-file-upload/js/jquery.fileupload-validate.js"></script>
+<!---------------------------------加载图片使用结束------------------------->
+
 <script>
     $(document).ready(function () {
         $(".chzn_a").chosen({
@@ -156,7 +158,7 @@
         }
         'use strict';
     // Change this to the location of your server-side upload handler:
-    var url = 'http://jquery-file-upload.appspot.com/server/php/',
+        var url = 'http://jquery-file-upload.appspot.com/server/php/',
         uploadButton = $('<button/>')
             .addClass('btn btn-primary')
             .prop('disabled', true)
