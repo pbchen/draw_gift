@@ -2,12 +2,12 @@
 <link rel="stylesheet" href="<?php echo RES; ?>lib/multi-select/css/multi-select.css" />
 <!-- enhanced select -->
 <link rel="stylesheet" href="<?php echo RES; ?>lib/chosen/chosen.css" />
-<link rel="stylesheet" href="<?php echo RES; ?>lib/jquery-file-upload/css/jquery.fileupload.css">
-
+<?php $this->load->view('shared/upload-image-css'); ?>
+<?php $this->load->view('shared/alert'); ?>
 <div class="row">
     <div class="col-sm-12 col-md-12">
         <h3 class="heading">新建商品</h3>
-        <form class="form-horizontal">
+        <form class="form-horizontal" id="fileupload">
             <fieldset>
                 <div class="form-group">
                     <label for="g_name" class="control-label col-sm-2">商品名称</label>
@@ -29,30 +29,39 @@
                     <label for="g_classify" class="control-label col-sm-2">商品分类</label>
                     <div class="col-sm-2">
                         <select name="g_classify" id="g_classify" data-placeholder="选择商品分类..." class="chzn_a form-control">
-                            <option value="DZ">Algeria</option><option value="AO">Angola</option>
-                            <option value="BJ">Benin</option><option value="BW">Botswana</option>
+                            <?php foreach($classify as $c):?>
+                            <option value="<?php echo $c['id']?>"><?php echo $c['name']?></option>
+                            <?php endforeach;?>
                         </select>
                     </div>
                     <label for="g_brand" class="control-label col-sm-1">商品品牌</label>
                     <div class="col-sm-2">
                         <select name="g_brand" id="g_brand" data-placeholder="选择商品品牌..." class="chzn_a form-control">
-                            <option value="DZ">Algeria</option><option value="AO">Angola</option>
-                            <option value="BJ">Benin</option><option value="BW">Botswana</option>
+                            <?php foreach($brand as $b):?>
+                            <option value="<?php echo $b['id']?>"><?php echo $b['name']?></option>
+                            <?php endforeach;?>
                         </select>
                     </div>
                     <label for="g_supplier" class="control-label col-sm-1">供应商</label>
                     <div class="col-sm-2">
                         <select name="g_supplier" id="g_supplier" data-placeholder="选择供应商..." class="chzn_a form-control">
-                            <option value="DZ">Algeria</option><option value="AO">Angola</option>
-                            <option value="BJ">Benin</option><option value="BW">Botswana</option>
+                            <?php foreach($suppley as $s):?>
+                            <option value="<?php echo $s['id']?>"><?php echo $s['name']?></option>
+                            <?php endforeach;?>
                         </select>
                     </div>
                 </div>
+                <div class="form-group goods-multiple-own" style="display: none;">
+                    <label for="g_ids" class="control-label col-sm-2">商&nbsp;品&nbsp;ID&nbsp;</label>
+                    <div class="col-sm-6">
+                        <textarea name="g_ids" id="g_ids" cols="10" rows="2" class="form-control"></textarea>
+                    </div>
+                </div>
                 <div class="form-group">
-                    <label for="g_prize" class="control-label col-sm-2">销售价格</label>
+                    <label for="g_price" class="control-label col-sm-2">销售价格</label>
                     <div class="f_success col-sm-3 col-md-3">
                         <div class="input-group">
-                            <input name="g_prize" id="g_prize" size="16" class="form-control" type="text">
+                            <input name="g_price" id="g_price" size="16" class="form-control" type="text">
                             <span class="input-group-addon">￥</span>
                         </div>
                     </div>
@@ -79,8 +88,9 @@
                     <label for="g_deliver" class="control-label col-sm-2">默认快递</label>
                     <div class="col-sm-2">
                         <select name="g_deliver" id="g_deliver" data-placeholder="选择商品快递..." class="chzn_a form-control">
-                            <option value="DZ">Algeria</option><option value="AO">Angola</option>
-                            <option value="BJ">Benin</option><option value="BW">Botswana</option>
+                            <?php foreach($deliver as $d):?>
+                            <option value="<?php echo $d['id']?>"><?php echo $d['name']?></option>
+                            <?php endforeach;?>
                         </select>
                     </div>
                 </div>
@@ -92,15 +102,17 @@
                 </div>
                 <div class="form-group">
                     <label for="fileinput" class="control-label col-sm-2">宣传图片</label>
-                    
-                    <span class="btn btn-success fileinput-button">
-                        <i class="glyphicon glyphicon-plus"></i>
-                        <span>添加图片</span>
-                        <!-- The file input field used as target for the file upload widget -->
-                        <input id="fileupload" type="file" name="files[]" multiple="">
+                    <!-- The table listing the files available for upload/download -->
+                    <span role="presentation" class="table table-striped">
+                        <ul class="files">
+                            
+                        </ul>
                     </span>
-                    <!-- The container for the uploaded files -->
-                    <div id="files" class="files"></div>
+                    <span class="btn btn-success fileinput-button" id="fileupload-bnt" title="添加图片">
+                        <i class="glyphicon glyphicon-plus"></i>
+                        <!-- The file input field used as target for the file upload widget -->
+                        <input id="fileupload" type="file" name="files[]" multiple="" onclick="return checkUpload(5);">
+                    </span>
                 </div>
                 <div class="form-group">
                     <label for="g_remark" class="control-label col-sm-2">产品备注</label>
@@ -108,10 +120,17 @@
                         <textarea name="g_remark" id="g_remark" cols="10" rows="3" class="form-control"></textarea>
                     </div>
                 </div>
+                <br/>
+                <div class="form-group" style="text-align: center;">
+                    <div class="col-sm-8"  style="margin-left: 30%;">
+                        <div class="btn btn-success col-sm-4" id="add-goods-ok">完成</div>
+                    </div>
+                </div>
             </fieldset>
         </form>
     </div>
 </div>
+
 <!-- multiselect -->
 <script src="<?php echo RES; ?>lib/multi-select/js/jquery.multi-select.js"></script>
 <script src="<?php echo RES; ?>lib/multi-select/js/jquery.quicksearch.js"></script>
@@ -121,31 +140,10 @@
 <script src="<?php echo RES; ?>js/forms/jquery.autosize.min.js"></script>
 <!-- user profile functions -->
 <script src="<?php echo RES; ?>js/pages/gebo_user_profile.js"></script>
-<!---------------------------------加载图片使用------------------------->
-<script src="<?php echo RES; ?>lib/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
-<script src="<?php echo RES; ?>lib/jquery-file-upload/js/load-image.all.min.js"></script>
-<!-- The Canvas to Blob plugin is included for image resizing functionality -->
-<script src="<?php echo RES; ?>lib/jquery-file-upload/js/canvas-to-blob.min.js"></script>
-<script src="<?php echo RES; ?>lib/jquery-file-upload/js/jquery.iframe-transport.js"></script>
-<!-- The basic File Upload plugin -->
-<script src="<?php echo RES; ?>lib/jquery-file-upload/js/jquery.fileupload.js"></script>
-<!-- The File Upload processing plugin -->
-<script src="<?php echo RES; ?>lib/jquery-file-upload/js/jquery.fileupload-process.js"></script>
-<!-- The File Upload image preview & resize plugin -->
-<script src="<?php echo RES; ?>lib/jquery-file-upload/js/jquery.fileupload-image.js"></script>
-<!-- The File Upload audio preview plugin -->
-<script src="<?php echo RES; ?>lib/jquery-file-upload/js/jquery.fileupload-audio.js"></script>
-<!-- The File Upload video preview plugin -->
-<script src="<?php echo RES; ?>lib/jquery-file-upload/js/jquery.fileupload-video.js"></script>
-<!-- The File Upload validation plugin -->
-<script src="<?php echo RES; ?>lib/jquery-file-upload/js/jquery.fileupload-validate.js"></script>
-<!---------------------------------加载图片使用结束------------------------->
+<?php $this->load->view('shared/upload-image'); ?>
 
 <script>
     $(document).ready(function () {
-        $(".chzn_a").chosen({
-            allow_single_deselect: true
-        });
         //* jQuery.browser.mobile (http://detectmobilebrowser.com/)
         //* jQuery.browser.mobile will be true if the browser is a mobile device
         (function (a) {
@@ -156,100 +154,99 @@
             if (top !== self)
                 top.location.href = self.location.href;
         }
-        'use strict';
-    // Change this to the location of your server-side upload handler:
-        var url = 'http://jquery-file-upload.appspot.com/server/php/',
-        uploadButton = $('<button/>')
-            .addClass('btn btn-primary')
-            .prop('disabled', true)
-            .text('Processing...')
-            .on('click', function () {
-                var $this = $(this),
-                    data = $this.data();
-                $this
-                    .off('click')
-                    .text('Abort')
-                    .on('click', function () {
-                        $this.remove();
-                        data.abort();
-                    });
-                data.submit().always(function () {
-                    $this.remove();
+        $(".chzn_a").chosen({
+            allow_single_deselect: true
+        });
+        //成功提示框设置
+        $('#alert-success').modal({
+            backdrop: false,
+            show:false
+        });
+        
+        //监听radio事件
+        $('input[name="g_type"]:radio').change(function(){               
+            var value=$(this).val();
+            if(value==1){
+                $("div.goods-multiple-own").hide();
+                $("div.goods-single-own").show();
+            }else{
+                $("div.goods-single-own").hide();
+                $("div.goods-multiple-own").show();
+            }                     
+        });
+        
+        $("#add-goods-ok").on('click',function(){
+            var flag = true;
+            var g_name = $("#g_name").val();
+            var g_type = $('input[name="g_type"]:checked ').val();
+            var g_classify = $("#g_classify").val();
+            var g_brand = $("#g_brand").val();
+            var g_supplier = $("#g_supplier").val();
+            var g_ids = $("#g_ids").val();
+            var g_price = $("#g_price").val();
+            var g_cost = $("#g_cost").val();
+            var g_inventory = $("#g_inventory").val();
+            var g_unit = $("#g_unit").val();
+            var g_deliver = $("#g_deliver").val();
+            var g_description = $("#g_description").val();
+            var g_remark = $("#g_remark").val();
+            var pic_ids = getUploadImg();
+            var price_preg = /^([0-9]+[\.]?[0-9]+|\d+)$/;
+            if(g_name==''||g_name==undefined){
+                flag = flag & false;
+                alertError("#alert-error",'商品名称不能为空！');
+                return ;
+            }
+            if(g_type==2){
+                if(g_ids==''){
+                    flag = flag & false;
+                    alertError("#alert-error",'商品ID不能为空！');
+                    return ;
+                }
+            }
+            if(g_price=='' || !price_preg.test(g_price)){
+                flag = flag & false;
+                alertError("#alert-error",'请填写正确的销售价格！');
+                return ;
+            }
+            if(g_cost=='' || !price_preg.test(g_cost)){
+                flag = flag & false;
+                alertError("#alert-error",'请填写正确的采购价格！');
+                return ;
+            }
+            if(g_inventory=='' || !/^[0-9]+$/.test(g_inventory)){
+                flag = flag & false;
+                alertError("#alert-error",'请填写商品库存！');
+                return ;
+            }
+            if(g_unit==''){
+                flag = flag & false;
+                alertError("#alert-error",'请填写商品单位！');
+                return ;
+            }
+            if(pic_ids==''){
+                flag = flag & false;
+                alertError("#alert-error",'请上传宣传图片！');
+                return ;
+            }
+            if(flag){
+                $.post('/goods_manage/add_goods',
+                {
+                    name:g_name,groupid:g_ids,type:g_type,classify_id:g_classify,
+                    brand_id:g_brand,supply_id:g_supplier,sale_price:g_price,
+                    buy_price:g_cost,store_num:g_inventory,deliver_id:g_deliver,
+                    munit:g_unit,desciption:g_description,remark:g_remark,
+                    pic_ids:pic_ids
+                },function(ret){
+                    var d = $.parseJSON(ret);
+                    if(d.errCode==0){
+                        alertSuccess("#alert-success",'/goods_manage/add_goods');
+                    }else{
+                        alertError("#alert-error",d.msg);
+                    }
                 });
-            });
-    $('#fileupload').fileupload({
-        url: url,
-        dataType: 'json',
-        autoUpload: false,
-        acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-        maxFileSize: 999000,
-        // Enable image resizing, except for Android and Opera,
-        // which actually support image resizing, but fail to
-        // send Blob objects via XHR requests:
-        disableImageResize: /Android(?!.*Chrome)|Opera/.test(window.navigator.userAgent),
-        previewMaxWidth: 100,
-        previewMaxHeight: 100,
-        previewCrop: true
-    }).on('fileuploadadd', function (e, data) {
-        data.context = $('<div/>').appendTo('#files');
-        $.each(data.files, function (index, file) {
-            var node = $('<p/>')
-                    .append($('<span/>').text(file.name));
-            if (!index) {
-                node
-                    .append('<br>')
-                    .append(uploadButton.clone(true).data(data));
             }
-            node.appendTo(data.context);
+            
         });
-    }).on('fileuploadprocessalways', function (e, data) {
-        var index = data.index,
-            file = data.files[index],
-            node = $(data.context.children()[index]);
-        if (file.preview) {
-            node
-                .prepend('<br>')
-                .prepend(file.preview);
-        }
-        if (file.error) {
-            node
-                .append('<br>')
-                .append($('<span class="text-danger"/>').text(file.error));
-        }
-        if (index + 1 === data.files.length) {
-            data.context.find('button')
-                .text('Upload')
-                .prop('disabled', !!data.files.error);
-        }
-    }).on('fileuploadprogressall', function (e, data) {
-        var progress = parseInt(data.loaded / data.total * 100, 10);
-        $('#progress .progress-bar').css(
-            'width',
-            progress + '%'
-        );
-    }).on('fileuploaddone', function (e, data) {
-        $.each(data.result.files, function (index, file) {
-            if (file.url) {
-                var link = $('<a>')
-                    .attr('target', '_blank')
-                    .prop('href', file.url);
-                $(data.context.children()[index])
-                    .wrap(link);
-            } else if (file.error) {
-                var error = $('<span class="text-danger"/>').text(file.error);
-                $(data.context.children()[index])
-                    .append('<br>')
-                    .append(error);
-            }
-        });
-    }).on('fileuploadfail', function (e, data) {
-        $.each(data.files, function (index) {
-            var error = $('<span class="text-danger"/>').text('File upload failed.');
-            $(data.context.children()[index])
-                .append('<br>')
-                .append(error);
-        });
-    }).prop('disabled', !$.support.fileInput)
-        .parent().addClass($.support.fileInput ? undefined : 'disabled');
     });
 </script>
