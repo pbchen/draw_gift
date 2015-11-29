@@ -14,8 +14,20 @@
 class goods_manage_model extends CI_Model {
     
     private $_goods_tb = '`gift_management`.`gift`';
+    //单品
     const SINGLE_GOODS_TYPE = 1;
+    //组合商品
     const MULTIPLE_GOODS_TYPE = 2;
+    //商品状态
+    private $goods_status = array(
+                '1' => '上架',
+                '2' => '下架'
+            );
+    //商品组合形式
+    private $goods_type = array(
+                '1' => '单品',
+                '2' => '组合'
+            );
     
     function __construct() {
         parent::__construct();
@@ -43,6 +55,36 @@ class goods_manage_model extends CI_Model {
         $data['desciption'] = $this->input->post('desciption');
         $data['remark'] = $this->input->post('remark');
         return $data;
+    }
+    
+    /**
+     * 获取列表条件
+     * @return type
+     */
+    public function get_goods_page_where(){
+        $cwhere = array();
+        if (isset($_REQUEST['id']) && $_REQUEST['id']!=0) {
+            $cwhere['`gift`.`id`'] = $_REQUEST['id'];
+        }
+        if (isset($_REQUEST['name']) && $_REQUEST['name'] != '') {
+            $cwhere['`gift`.`name` LIKE '] = '%'.$_REQUEST['name'].'%';
+        }
+        if (isset($_REQUEST['status']) && $_REQUEST['status']!=0) {
+            $cwhere['`gift`.`status`'] = $_REQUEST['status'];
+        }
+        if (isset($_REQUEST['type']) && $_REQUEST['type']!=0) {
+            $cwhere['`gift`.`id`'] = $_REQUEST['type'];
+        }
+        if (isset($_REQUEST['supply']) && $_REQUEST['supply']!=0) {
+            $cwhere['`gift`.`supply_id`'] = $_REQUEST['supply'];
+        }
+        if (isset($_REQUEST['classify']) && $_REQUEST['classify']!=0) {
+            $cwhere['`gift`.`classify_id`'] = $_REQUEST['classify'];
+        }
+        if (isset($_REQUEST['brand']) && $_REQUEST['brand']!=0) {
+            $cwhere['`gift`.`brand_id`'] = $_REQUEST['brand'];
+        }
+        return $cwhere;
     }
     
     /**
@@ -96,7 +138,20 @@ class goods_manage_model extends CI_Model {
         return $this->db->insert_id();
     }
     
-    
+    /**
+     * 转化前端datatable要求的样式
+     * @param type $pageData
+     */
+    public function ajax_goods_list_table_data(&$pageData){
+        foreach($pageData as &$v){
+            $v['checkbox'] = "<input name='row_sel' type='checkbox' id='{$v['id']}'>";
+            $v['oper'] = "<a rel='{$v['id']}'class='edit oper'>编辑</a>";
+            //$v['oper'] .= "<a rel='{$v['id']}'class='minus oper'>&nbsp;&nbsp;&nbsp;出库</a>";
+            //$v['oper'] .= "<a rel='{$v['id']}'class='add oper'>&nbsp;&nbsp;&nbsp;入库</a>";
+            $v['status'] = isset($this->goods_status[$v['status']])?$this->goods_status[$v['status']]:'';
+            $v['type'] = isset($this->goods_type[$v['type']])?$this->goods_type[$v['type']]:'';
+        }
+    }
     
     
     

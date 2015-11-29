@@ -23,46 +23,53 @@
             <script src="js/ie/html5.js"></script>
                         <script src="js/ie/respond.min.js"></script>
         <![endif]-->
+        
+        <link rel="stylesheet" href="<?php echo RES; ?>/login/css/login.css" />
 
     </head>
     <body>
-
+	<div class="login_ng">
+			
         <div class="login_box">
 
             <form action="/login/login" method="post" id="login_form">
-                <div class="top_b">欢迎登录爱礼物兑奖平台</div>
-                <?php if($msg): ?>
-                <div class="alert alert-info alert-login">
+                <!--<div class="top_b">欢迎登录爱礼物兑奖平台</div>-->
+                 <?php if($msg): ?>
+                <div class="alert alert-danger alert-login">
                     <?php echo $msg;?>
                 </div>
                 <?php else: ?>
-                <div class="alert alert-info alert-login">
-                    请输入用户名和密码
-                </div>
+                <!--<div class="alert alert-info alert-login">
+            		请输入用户名和密码
+                </div>-->
                 <?php endif;?>
                 <div class="cnt_b">
-                    <div class="form-group">
+                    <div class="form-group user_name">
                         <div class="input-group">
                             <span class="input-group-addon input-sm"><i class="glyphicon glyphicon-user"></i></span>
-                            <input class="form-control input-sm" type="text" id="username" name="username" placeholder="Username" value="" />
+                            <input class="form-control input-sm" type="text" id="username" name="username" placeholder="账号" value="" />
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon input-sm"><i class="glyphicon glyphicon-lock"></i></span>
-                            <input class="form-control input-sm" type="password" id="password" name="password" placeholder="Password" value="" />
+                            <input class="form-control input-sm" type="password" id="password" name="password" placeholder="密码" value="" />
                         </div>
                     </div>
+                    <div class="checked_name"><label><input type="checkbox" checked="checked"/> 记住我 </label></div>
                     <div class="form-group">
-                        <div class="checkbox"><label><input type="checkbox" checked="checked"/> 记住我 </label></div>
+                    
+                    <div class=" clearfix login_btn_box"> 
+                    	<button class="btn btn-primary btn-lg btn-block btn-sm pull-right" type="submit">登录</button>
+                    </div>
                     </div>
                 </div>
-                <div class="btm_b clearfix">
+               <!--- <div class="btm_b clearfix">
                     <button class="btn btn-success btn-sm pull-right" type="submit">登录</button>
-                    <!---
+                    
                     <span class="link_reg"><a href="#reg_form">Not registered? Sign up here</a></span>
-                    --->
-                </div>  
+                    
+                </div>  --->
             </form>
 
             <form action="dashboard.html" method="post" id="pass_form" style="display:none">
@@ -142,6 +149,7 @@
             </div>
 
         </div>
+    </div>
 
         <script src="<?php echo RES; ?>js/jquery.min.js"></script>
         <script src="<?php echo RES; ?>js/jquery.actual.min.js"></script>

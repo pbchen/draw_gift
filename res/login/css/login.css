@@ -1,0 +1,83 @@
+.login_ng{
+	width: 1000px;
+  height: 590px;
+  position: relative;
+  top: 50%;
+  margin: 0 auto;
+  margin-top: -300px;
+  background: url(../img/login_bg.png) no-repeat;
+}
+.login_ng .input-group-addon{
+	background: #f9f9f9;
+}
+.login_page div.login_box{
+	top: 290px;
+	margin-left:590px;
+	width: 380px;
+   background: none; 
+   border: none; 
+     box-shadow: none;
+}
+.login_page .alert{
+    padding: 4px 15px;
+  position: absolute;
+  width: 248px;
+  top: -3px;
+  left: 54px;
+	
+}
+.login_page div.cnt_b{
+	padding-bottom: 10px;
+	  padding-top: 43px;
+}
+.login_page div.cnt_b .user_name{
+	margin-bottom: 20px;
+}
+.login_page .btm_b .btn-sm{
+	  padding: 5px 30px;
+	    margin-right: 22px;
+}
+.f_error label.error{
+	position: absolute;
+}
+.checked_name{
+	text-align: right;
+	margin-top: -5px;
+}
+.login_btn_box button{
+	width: 100%;
+}
+.login_btn_box button{
+	background: #2363E1;
+}
+.login_btn_box button:hover,.login_btn_box button:focus{
+	 background-color: #004CE2;
+  border-color: #0B4E88;
+}
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
