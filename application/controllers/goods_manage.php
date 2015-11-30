@@ -73,33 +73,18 @@ class goods_manage extends CI_Controller {
      * 商品列表分页
      */
     public function goods_list_page() {
-        $cols = array('`gift`.`id` AS `id`', '`gift`.`name` AS `g_name`', '`gift`.`type`','`gift`.`store_num`', '`gift`.`sold_num`',
-            '`gift`.`status`','`gift_brand`.`name` AS `b_name`','`gift_classify`.`name` AS `c_name`','`gift_supply`.`name` AS `s_name`');
-        $sort_cols = array('4'=>'`gift`.`store_num`');
-        $filter_cols = array();
-        //查询主表
-        $table = '`gift_management`.`gift`';
-        $dtparser = $this->data_table_parser;
-        $dtparser->select($cols, $sort_cols, $filter_cols, FALSE);
-        $dtparser->from($table);
-        $dtparser->join('`gift_management`.`gift_brand`', 'gift_brand.id=gift.brand_id', 'left');
-        $dtparser->join('`gift_management`.`gift_classify`', 'gift_classify.id=gift.classify_id', 'left');
-        $dtparser->join('`gift_management`.`gift_supply`', 'gift_supply.id=gift.supply_id', 'left');
-        //条件
-        $cwhere = $this->goods_manage_model->get_goods_page_where();
-        $d['code'] = 0;
-        $d['iTotal'] = 0;
-        $d['iFilteredTotal'] = 0;
-        $d['aaData'] = array();
-        if( $d['code'] == 0 ){
-            $d['iTotal'] = $dtparser->count($cwhere);
-            $d['iFilteredTotal'] = $d['iTotal'];
-            $query = $dtparser->get($cwhere);
-            $arr = $query->result_array();
-            $this->goods_manage_model->ajax_goods_list_table_data($arr);
-            $d['aaData']=$arr;
-        }
+        $d = $this->goods_manage_model->goods_page_data($this->data_table_parser);
         $this->load->view('json/datatable', $d);
+    }
+    
+    /**
+     * 商品下载
+     */
+    public function download_goods(){
+        $data = $this->goods_manage_model->download_goods_data();
+        $header = array('商品名称','商品id','状态','库存','售出','供应商','分类'
+            ,'品牌','组合形式');
+        download_model($header, $data);
     }
 
 }

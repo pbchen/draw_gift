@@ -88,6 +88,79 @@ class goods_manage_model extends CI_Model {
     }
     
     /**
+     * 商品分页列
+     */
+    private function _goods_page_cols(){
+        
+        return $cols = array('`gift`.`id` AS `id`', '`gift`.`name` AS `g_name`'
+                , '`gift`.`type`','`gift`.`store_num`', '`gift`.`sold_num`'
+                ,'`gift`.`status`','`gift_brand`.`name` AS `b_name`'
+                ,'`gift_classify`.`name` AS `c_name`','`gift_supply`.`name` AS `s_name`'
+            );
+    }
+    
+    /**
+     * 获取商品分页数据
+     * @param type $dtparser datatable类库
+     */
+    public function goods_page_data($dtparser){
+        $cols = $this->_goods_page_cols();
+        $sort_cols = array('4'=>'`gift`.`store_num`');
+        $filter_cols = array();
+        //查询主表
+        $dtparser->select($cols, $sort_cols, $filter_cols, FALSE);
+        $dtparser->from($this->_goods_tb);
+        $dtparser->join('`gift_management`.`gift_brand`', 'gift_brand.id=gift.brand_id', 'left');
+        $dtparser->join('`gift_management`.`gift_classify`', 'gift_classify.id=gift.classify_id', 'left');
+        $dtparser->join('`gift_management`.`gift_supply`', 'gift_supply.id=gift.supply_id', 'left');
+        //条件
+        $cwhere = $this->get_goods_page_where();
+        $d['code'] = 0;
+        $d['iTotal'] = 0;
+        $d['iFilteredTotal'] = 0;
+        $d['aaData'] = array();
+        if( $d['code'] == 0 ){
+            $d['iTotal'] = $dtparser->count($cwhere);
+            $d['iFilteredTotal'] = $d['iTotal'];
+            $query = $dtparser->get($cwhere);
+            $arr = $query->result_array();
+            $this->ajax_goods_list_table_data($arr);
+            $d['aaData']=$arr;
+        }
+        return $d;
+    }
+    
+    /**
+     * 导出商品
+     * @return type
+     */
+    public function download_goods_data(){
+        $cols = $this->_goods_page_cols();
+        $cwhere = $this->get_goods_page_where();
+        $this->db->select($cols);
+        $this->db->from($this->_goods_tb);
+        $this->db->join('`gift_management`.`gift_brand`', 'gift_brand.id=gift.brand_id', 'left');
+        $this->db->join('`gift_management`.`gift_classify`', 'gift_classify.id=gift.classify_id', 'left');
+        $this->db->join('`gift_management`.`gift_supply`', 'gift_supply.id=gift.supply_id', 'left');
+        if($cwhere){
+            $this->db->where($cwhere);
+        }
+        $query = $this->db->get();
+        $arr = $query->result_array();
+        $this->ajax_goods_list_table_data($arr);
+        $fun = function(&$val,$k){
+            if(isset($val['checkbox'])){
+                unset($val['checkbox']);
+            }
+            if(isset($val['oper'])){
+                unset($val['oper']);
+            }
+        };
+        array_walk($arr, $fun);
+        return $arr;
+    }
+    
+    /**
      * 检查商品个数
      * @param type $group_goods
      * @return string

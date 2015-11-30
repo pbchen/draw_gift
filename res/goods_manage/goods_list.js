@@ -43,17 +43,30 @@ $(document).ready(function () {
     //查询
     $('button.search').die().live("click", function (e) {
         var oSettings = oTable.fnSettings();
-        oSettings.sAjaxSource = ajax_source
-        + "?id="+$("input[name=s_gid]").val()
-        +"&name="+encodeURIComponent($("input[name=s_gname]").val())
-        +"&status="+$("select[name=s_gstatus]").val()
-        +"&type="+$("select[name=s_gtype]").val()
-        +"&supply="+$("select[name=s_gsupply]").val()
-        +"&classify="+$("select[name=s_gclassify]").val()
-        +"&brand="+$("select[name=s_gbrand]").val();
+        oSettings.sAjaxSource = ajax_source + getSearchParams();
         oTable.fnDraw();
-
     });
+    //下载商品
+    $("#download-goods").click(function(){
+        var download_url = '/goods_manage/download_goods' + getSearchParams();
+        window.open(download_url);
+    });
+    /**
+     * 获取查询条件呢
+     * @returns {String}
+     */
+    function getSearchParams(){
+        var params;
+        params = "?id="+$("input[name=s_gid]").val()
+                +"&name="+encodeURIComponent($("input[name=s_gname]").val())
+                +"&status="+$("select[name=s_gstatus]").val()
+                +"&type="+$("select[name=s_gtype]").val()
+                +"&supply="+$("select[name=s_gsupply]").val()
+                +"&classify="+$("select[name=s_gclassify]").val()
+                +"&brand="+$("select[name=s_gbrand]").val();
+        return params;
+    }
+    
 });
 
 

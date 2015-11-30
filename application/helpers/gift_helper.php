@@ -51,10 +51,36 @@ if( ! function_exists('json_out_put') ){
         die(json_encode($d));
     }
 }
-
+//return model 数据输出模型
 if( ! function_exists('return_model') ){
     function return_model($errCode=0,$msg='',$val=array()){
         return array('errCode'=>$errCode,'msg'=>$msg,'val'=>$val);
+    }
+}
+//数据下载
+if( ! function_exists('download_model') ){
+    function download_model($header=array(),$d=array(),$fsuffix='.csv'){
+        $word_split = ',';
+        $line_split = "\n";
+        if($fsuffix=='.tsv') $word_split = "\t";
+        $content = '';
+        if(is_array($header)&& count($header)>0){
+            $content .= implode($word_split, $header);
+            $content .= $line_split;
+        }
+        if(is_array($d) && count($d)>0){
+            foreach ($d as $v){
+                $content .= implode($word_split, $v);
+                $content .= $line_split;
+            }
+        }
+        $content = iconv("UTF-8","gbk//TRANSLIT",$content);
+        $fname = date('YmdHis') . $fsuffix;
+        Header('Content-type:appliction/octet-stream');
+        Header("Accept-Ranges: bytes");
+        Header("Accept-Length:" . strlen($content));
+        Header("Content-Disposition:attachment;filename=".$fname);
+        die($content);
     }
 }
 
