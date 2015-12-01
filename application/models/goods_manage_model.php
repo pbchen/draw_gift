@@ -212,13 +212,42 @@ class goods_manage_model extends CI_Model {
     }
     
     /**
+     * 获取商品信息
+     * @param type $where
+     */
+    public function get_goods_info($where=array()){
+        $this->db->select('*')->from($this->_goods_tb);
+        if($where){
+            $this->db->where($where);
+        }
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    
+    /**
+     * 更新商品信息
+     * @param array $updata
+     * @param type $where
+     * @param type $where_in
+     * @return type
+     */
+    public function update_goods_info($updata,$where=array()){
+        $updata['utime'] = date('Y-m-d H:i:s');
+        if($where){
+            $this->db->where($where);
+        }
+        $this->db->update($this->_goods_tb,$updata);
+        return $this->db->affected_rows();
+    }
+    
+    /**
      * 转化前端datatable要求的样式
      * @param type $pageData
      */
     public function ajax_goods_list_table_data(&$pageData){
         foreach($pageData as &$v){
             $v['checkbox'] = "<input name='row_sel' type='checkbox' id='{$v['id']}'>";
-            $v['oper'] = "<a rel='{$v['id']}'class='edit oper'>编辑</a>";
+            $v['oper'] = "<a rel='{$v['id']}'class='edit oper'href='/goods_manage/edit_goods?id={$v['id']}'>编辑</a>";
             //$v['oper'] .= "<a rel='{$v['id']}'class='minus oper'>&nbsp;&nbsp;&nbsp;出库</a>";
             //$v['oper'] .= "<a rel='{$v['id']}'class='add oper'>&nbsp;&nbsp;&nbsp;入库</a>";
             $v['status'] = isset($this->goods_status[$v['status']])?$this->goods_status[$v['status']]:'';

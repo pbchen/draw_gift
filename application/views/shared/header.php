@@ -21,6 +21,8 @@
 <link rel="stylesheet" href="<?php echo RES; ?>css/style.css" />
 <!-- theme color-->
 <link rel="stylesheet" href="<?php echo RES; ?>css/blue.css" id="link_theme" />
+<!-- theme smoke-->
+<link rel="stylesheet" href="<?php echo RES; ?>lib/smoke/themes/gebo.css"/>
 <!--
 <link href='http://fonts.googleapis.com/css@family=PT+Sans' rel='stylesheet' type='text/css'>
 -->

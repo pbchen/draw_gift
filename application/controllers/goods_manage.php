@@ -39,7 +39,7 @@ class goods_manage extends CI_Controller {
             $data['sold_num'] = 0;
 
             if ($data['type'] == goods_manage_model::MULTIPLE_GOODS_TYPE) {
-                if ($check_info = $this->goods_manage_model->check_goods_num($data['groupid'], $data['store_num'])) {
+                if ($check_info = $this->goods_manage_model->check_goods_num($data['groupid'], 1)) {
                     json_out_put(return_model('1002', $check_info, NULL));
                 }
             }
@@ -56,6 +56,20 @@ class goods_manage extends CI_Controller {
             $d['deliver'] = $this->deliver_model->get_deliver();
             $this->layout->view('goods_manage/add_goods', $d);
         }
+    }
+    /**
+     * 加载编辑视图
+     */
+    public function edit_goods(){
+        $id = $this->input->get('id');
+        $d = array('title' => '编辑商品', 'msg' => '', 'no_load_bootstrap_plugins' => true);
+        $goods = $this->goods_manage_model->get_goods_info(array('id'=>$id));
+        $d['goods'] = $goods[0];
+        $d['brand'] = $this->brand_model->get_brand();
+        $d['classify'] = $this->classify_model->get_classify();
+        $d['suppley'] = $this->supply_model->get_suppley();
+        $d['deliver'] = $this->deliver_model->get_deliver();
+        $this->layout->view('goods_manage/edit_goods', $d);
     }
 
     /**
@@ -85,6 +99,38 @@ class goods_manage extends CI_Controller {
         $header = array('商品名称','商品id','状态','库存','售出','供应商','分类'
             ,'品牌','组合形式');
         download_model($header, $data);
+    }
+    
+    /**
+     * 更新商品上架&下架
+     */
+    public function update_goods(){
+        $ids = $this->input->post('ids');
+        $d['status'] = $this->input->post('status');
+        if($remark=$this->input->post('remark')){
+            $d['remark'] = $remark;
+        }
+        $this->db->where_in('id',$ids);
+        $aff_row = $this->goods_manage_model->update_goods_info($d);
+        json_out_put(return_model(0, '添加成功', $aff_row));
+    }
+    /**
+     * 编辑商品
+     */
+    public function update_goods_info(){
+        $goods_id = $this->input->post('id');
+        $data = $this->goods_manage_model->get_goods_params();
+        if ($data['type'] == goods_manage_model::MULTIPLE_GOODS_TYPE) {
+            if ($check_info = $this->goods_manage_model->check_goods_num($data['groupid'], 1)) {
+                json_out_put(return_model('1002', $check_info, NULL));
+            }
+        }
+        $affect_row = $this->goods_manage_model->update_goods_info($data,array('id'=>$goods_id));
+        if (is_numeric($affect_row)) {
+            json_out_put(return_model(0, '更新成功', $affect_row));
+        } else {
+            json_out_put(return_model('1001', '更新失败', NULL));
+        }
     }
 
 }

@@ -20,6 +20,9 @@ if( ! defined('RES') ){
 if( ! defined('PER_PAGE') ){
     define('PER_PAGE', 10);
 }
+if(! defined('IMAGE_SERVER')){
+    define('IMAGE_SERVER', 'http://localhost/server/php/');
+}
 //上传文件路径
 $config['upload_path'] = "/tmp";
 

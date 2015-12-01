@@ -1,15 +1,7 @@
 <!-- datatables -->
 <link rel="stylesheet" href="<?php echo RES; ?>lib/datatables/extras/TableTools/media/css/TableTools.css">
-<style>
-    a.oper{cursor: pointer;text-decoration:none;color: blue;}
-    .margin-left-1{margin-left:5px;}
-    .margin-left-2{margin-left:10px;}
-    .margin-left-6{margin-left:30px;}
-    .input-medium{max-width: 140px;}
-    .select-medium{min-width:100px;padding: 2px 6px;margin: 3px 0 0;height: 24px;font-size: 12px;}
-    button.label{padding-left: 10px;padding-right: 10px;}
-    div.empty{width: 100%;margin: 5px auto;}
-</style>
+<link rel="stylesheet" href="<?php echo RES; ?>/common/common.css" />
+<?php $this->load->view('shared/alert'); ?>
 
 <div class="row">
     <div class="col-sm-12 col-md-12">
@@ -69,9 +61,9 @@
                 <a class="btn btn-success label" href="/goods_manage/add_goods">新建</a>
                 <a class="btn btn-success label margin-left-2" id="download-goods">导出</a>
                 <a class="btn btn-success label margin-left-2" id="multiple-down">批量下架</a>
-                <a class="btn btn-success label margin-left-2" id="goods-down">下架</a>
+                <a class="btn btn-success label margin-left-2 down-up-goods" id="goods-down">下架</a>
                 <a class="btn btn-success label margin-left-2" id="multiple-up">批量上架</a>
-                <a class="btn btn-success label margin-left-2" id="goods-up">上架</a>
+                <a class="btn btn-success label margin-left-2 down-up-goods" id="goods-up">上架</a>
             </div>
         </div>
         <table class="table table-striped table-bordered dTableR" id="goods_tb">
