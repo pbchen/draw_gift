@@ -132,5 +132,27 @@ class goods_manage extends CI_Controller {
             json_out_put(return_model('1001', '更新失败', NULL));
         }
     }
+    
+    /**
+     * 品牌列表
+     */
+    public function brand_list(){
+        $d = array('title' => '商品品牌列表', 'msg' => '');
+        $this->layout->view('brand/brand_list', $d);
+    }
+    /**
+     * 分类列表
+     */
+    public function classify_list(){
+        $d = array('title' => '商品分类列表', 'msg' => '');
+        $this->layout->view('classify/classify_list', $d);
+    }
+    /**
+     * 供应商列表
+     */
+    public function supply_list(){
+        $d = array('title' => '商品供应商列表', 'msg' => '');
+        $this->layout->view('supply/supply_list', $d);
+    }
 
 }

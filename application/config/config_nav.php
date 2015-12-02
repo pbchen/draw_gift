@@ -66,28 +66,28 @@ $config['gift_navigation'] = array(
                     'display_role'=>array(1),
                     'sub_nav' => array(),
                 ),
-            'goods_classify_list'=>array(
+            'classify_list'=>array(
                     'id' => '2_3',
                     'title'=>'商品分类列表',
-                    'self_url'=>'goods_classify_list',
+                    'self_url'=>'classify_list',
                     'is_home'=> false,
                     'sort' => 3,
                     'display_role'=>array(1),
                     'sub_nav' => array(),
                 ),
-            'goods_brand_list'=>array(
+            'brand_list'=>array(
                     'id' => '2_4',
                     'title'=>'商品品牌列表',
-                    'self_url'=>'goods_brand_list',
+                    'self_url'=>'brand_list',
                     'is_home'=> false,
                     'sort' => 4,
                     'display_role'=>array(1),
                     'sub_nav' => array(),
                 ),
-            'goods_supplier_list'=>array(
+            'supply_list'=>array(
                     'id' => '2_2',
                     'title'=>'供应商列表',
-                    'self_url'=>'goods_supplier_list',
+                    'self_url'=>'supply_list',
                     'is_home'=> false,
                     'sort' => 2,
                     'display_role'=>array(1),

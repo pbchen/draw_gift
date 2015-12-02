@@ -255,6 +255,22 @@ class goods_manage_model extends CI_Model {
         }
     }
     
-    
+    /**
+     * 通过字段值条件获取商品
+     * @param type $col_name
+     * @param type $val_arr
+     */
+    public function get_goods_groupby_col($col_name,$val_arr){
+        $cols = array('count(*) as `num`',$col_name);
+        $this->db->select($cols)->from($this->_goods_tb);
+        $this->db->where_in($col_name,$val_arr);
+        $this->db->group_by($col_name);
+        $query = $this->db->get();
+        $result = array();
+        foreach($query->result() as $row){
+            $result[$row->$col_name] = $row->num;
+        }
+        return $result;
+    }
     
 }

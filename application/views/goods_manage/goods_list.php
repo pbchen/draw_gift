@@ -3,6 +3,43 @@
 <link rel="stylesheet" href="<?php echo RES; ?>/common/common.css" />
 <?php $this->load->view('shared/alert'); ?>
 
+<!---------批量上下架弹层---------->
+<div class="modal fade" id="down-up-goods">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modal-max-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title">批量下架</h3>
+            </div>
+            <div class="modal-body">
+                <table class="table table-condensed table-striped">
+                    <tbody>
+                        <tr>
+                            <td class="center">商品id</td>
+                            <td>
+                                <textarea name="g_ids" cols="6" rows="2" class="form-control"></textarea>
+                            </td>
+                            <td class="alert-label-error center" id="gids-error"></td>
+                        </tr>
+                        <tr>
+                            <td class="center">备注</td>
+                            <td>
+                                <textarea name="g_remark" id="g_remark" cols="6" rows="3" class="form-control"></textarea>
+                            </td>
+                            <td class="alert-label-error center" id="remark-error"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="center">
+                                <button type="button" class="btn btn-success" id="down-up-goods-bnt">确认</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-sm-12 col-md-12">
         <h3 class="heading">商品列表</h3>
