@@ -16,7 +16,7 @@ class brand_model extends CI_Model {
     private $_brand_tb = '`gift_management`.`gift_brand`';
     const BRAND_START_STATUS = 1;
     const BRAND_STOP_STATUS = 2;
-    private $brand_status = array(
+    private $_brand_status = array(
         '1' => '使用',
         '2' => '停用'
     );
@@ -31,7 +31,7 @@ class brand_model extends CI_Model {
      * @return type
      */
     public function get_brand_status(){
-        return $this->brand_status;
+        return $this->_brand_status;
     }
     
     /**
@@ -130,7 +130,7 @@ class brand_model extends CI_Model {
             $v['checkbox'] = "<input name='row_sel' type='checkbox' id='{$v['id']}'>";
             $v['oper'] = "<a rel='{$v['id']}'class='edit oper'>编辑</a>";
             $v['oper'] .= "<a rel='{$v['id']}'class='load oper'>&nbsp;&nbsp;&nbsp;导入</a>";
-            $v['status'] = isset($this->brand_status[$v['status']])?$this->brand_status[$v['status']]:'';
+            $v['status'] = isset($this->_brand_status[$v['status']])?$this->_brand_status[$v['status']]:'';
         }
     }
     

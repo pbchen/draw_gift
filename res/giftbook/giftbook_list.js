@@ -1,20 +1,20 @@
 
 $(document).ready(function () {
     //添加提示框
-    $('#add-supply-modal').modal({
+    $('#add-giftbook-modal').modal({
         backdrop: 'static',
         show: false
     });
     
     //编辑提示框
-    $('#edit-supply-modal').modal({
+    $('#edit-giftbook-modal').modal({
         backdrop: 'static',
         show: false
     });
 
-    var ajax_source = "/supply/supply_list_page";
+    var ajax_source = "/giftbook_manage/giftbook_list_page";
     //列表datatable
-    var oTable = $('#supply_tb').dataTable({
+    var oTable = $('#giftbook_tb').dataTable({
         "sDom": "<'row'<'col-sm-6'f>r>t<'row'<'col-sm-2'<'dt_actions'>l><'col-sm-2'i><'col-sm-8'p>>",
         "sPaginationType": "bootstrap_alt",
         "bFilter": false, //禁止过滤
@@ -23,7 +23,7 @@ $(document).ready(function () {
         "bServerSide": true,
         "aoColumnDefs": [
             {
-                "aTargets": [0, 1, 2, 3, 5, 6, 7, 8, 9],
+                "aTargets": [0, 1, 2, 3, 5, 6],
                 "bSortable": false
             }
         ],
@@ -33,9 +33,6 @@ $(document).ready(function () {
             {"mData": "id"},
             {"mData": "status"},
             {"mData": "goods_num"},
-            {"mData": "contact_person"},
-            {"mData": "phone"},
-            {"mData": "qq"},
             {"mData": "remark"},
             {"mData": "oper"}
         ],
@@ -67,10 +64,7 @@ $(document).ready(function () {
         var params;
         params = "?id=" + $("input[name=s_id]").val()
                 + "&name=" + encodeURIComponent($("input[name=s_name]").val())
-                + "&status=" + $("select[name=s_status]").val()
-                + "&contact=" + encodeURIComponent($("input[name=s_contact]").val())
-                + "&phone=" + $("input[name=s_phone]").val()
-                + "&qq=" + $("input[name=s_qq]").val();
+                + "&status=" + $("select[name=s_status]").val();
         return params;
     }
 
@@ -90,10 +84,10 @@ $(document).ready(function () {
     //停用和启动操作
     function downUpOper(clickId) {
         var status = 1;
-        var msg = '请选择要启用的供应商！';
-        if (clickId == 'stop-supply') {
+        var msg = '请选择要启用的品牌！';
+        if (clickId == 'stop-giftbook') {
             status = 2;
-            msg = '请选择要停用的供应商！';
+            msg = '请选择要停用的品牌！';
         }
         var flag = true;
         var ids = getCheckedIds();
@@ -103,7 +97,7 @@ $(document).ready(function () {
             return;
         }
         if (flag) {
-            $.post('/supply/update_supply?', {ids: ids, status: status}, function (ret) {
+            $.post('/giftbook_manage/update_giftbook?', {ids: ids, status: status}, function (ret) {
                 var d = $.parseJSON(ret);
                 if (d.errCode == 0) {
                     alertSuccess("#alert-success", '');
@@ -117,52 +111,34 @@ $(document).ready(function () {
         }
     }
     //上架
-    $("#stop-supply").click(function () {
-        downUpOper('stop-supply');
+    $("#stop-giftbook").click(function () {
+        downUpOper('stop-giftbook');
     });
     //下架
-    $("#start-supply").click(function () {
-        downUpOper('start-supply');
+    $("#start-giftbook").click(function () {
+        downUpOper('start-giftbook');
     });
     
     //新建
-    $("#add-supply").click(function(){
-        $("#add-supply-modal").modal('show');
-        $("#add-supply-bnt").die().live('click',function(){
+    $("#add-giftbook").click(function(){
+        $("#add-giftbook-modal").modal('show');
+        $("#add-giftbook-bnt").die().live('click',function(){
             $(".alert-label-error").text('');
             var flag = true;
             var name = $("input[name=a_name]").val();
             var remark = $("textarea[name=a_remark]").val();
-            var contact = $("input[name=a_contact]").val();
-            var phone = $("input[name=a_phone]").val();
-            var qq = $("input[name=a_qq]").val();
-            if( name=='' ){
-                flag = flag & false;
-                $("#name-error").text('请填写供应商名称！');
-            }
-           if( contact=='' ){
+           if( name=='' ){
                flag = flag & false;
-               $("#contact-error").text('请填写联系人！');
-           }
-           if( phone=='' ){
-               flag = flag & false;
-               $("#phone-error").text('请填写联系电话！');
-           }
-           if( qq=='' ){
-               flag = flag & false;
-               $("#qq-error").text('请填写QQ！');
+               $("#name-error").text('请填写品牌名称！');
            }
            if( remark=='' ){
                flag = flag & false;
                $("#remark-error").text('请填写备注！');
            }
            if(flag){
-               $.post('/supply/add_supply?',{
-                   name:name,contact:contact,
-                   phone:phone,qq:qq,remark:remark
-                },function(ret){
+               $.post('/giftbook_manage/add_giftbook?',{name:name,remark:remark},function(ret){
                    var d = $.parseJSON(ret);
-                   $("#add-supply-modal").modal('hide');
+                   $("#add-giftbook-modal").modal('hide');
                    if (d.errCode==0) {
                         alertSuccess("#alert-success",'');
                         var oSettings = oTable.fnSettings();
@@ -180,54 +156,35 @@ $(document).ready(function () {
     $("a.edit").die().live('click',function(){
         $("span[name=e_id]").text($(this).parent().siblings().eq(2).text());
         $("input[name=e_name]").val($(this).parent().siblings().eq(1).text());
-        $("input[name=e_contact]").val($(this).parent().siblings().eq(5).text());
-        $("input[name=e_phone]").val($(this).parent().siblings().eq(6).text());
-        $("input[name=e_qq]").val($(this).parent().siblings().eq(7).text());
         var status = 1;
         if($(this).parent().siblings().eq(3).text()=='停用'){
             var status = 2;
         }
         $("select[name=e_status]").val(status);
         $("textarea[name=e_remark]").val($(this).parent().siblings().eq(5).text());
-        $("#edit-supply-modal").modal('show');
-        $("#edit-supply-bnt").die().live('click',function(){
+        $("#edit-giftbook-modal").modal('show');
+        $("#edit-giftbook-bnt").die().live('click',function(){
             $(".alert-label-error").text('');
             var flag = true;
             var name = $("input[name=e_name]").val();
             var remark = $("textarea[name=e_remark]").val();
-            var contact = $("input[name=e_contact]").val();
-            var phone = $("input[name=e_phone]").val();
-            var qq = $("input[name=e_qq]").val();
             var id = $("span[name=e_id]").text();
            if( name=='' ){
                flag = flag & false;
-               $("#edit-name-error").text('请填写供应商名称！');
-           }
-           if( contact=='' ){
-               flag = flag & false;
-               $("#edit-contact-error").text('请填写联系人！');
-           }
-           if( phone=='' ){
-               flag = flag & false;
-               $("#edit-phone-error").text('请填写联系电话！');
-           }
-           if( qq=='' ){
-               flag = flag & false;
-               $("#edit-name-error").text('请填写QQ！');
+               $("#edit-name-error").text('请填写品牌名称！');
            }
            if( remark=='' ){
                flag = flag & false;
                $("#edit-remark-error").text('请填写备注！');
            }
            if(flag){
-               $.post('/supply/edit_supply?',{
+               $.post('/giftbook_manage/edit_giftbook?',{
                    id:id,status:$("select[name=e_status]").val(),
-                   name:name,remark:remark,contact:contact,phone:phone,
-                   qq:qq
+                   name:name,remark:remark
                },function(ret){
                    var d = $.parseJSON(ret);
                    if (d.errCode==0) {
-                        $("#edit-supply-modal").modal('hide');
+                        $("#edit-giftbook-modal").modal('hide');
                         alertSuccess("#alert-success",'');
                         var oSettings = oTable.fnSettings();
                         oSettings.sAjaxSource = ajax_source + getSearchParams();

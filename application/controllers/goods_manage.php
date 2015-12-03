@@ -52,7 +52,7 @@ class goods_manage extends CI_Controller {
             $d = array('title' => '商品管理', 'msg' => '', 'no_load_bootstrap_plugins' => true);
             $d['brand'] = $this->brand_model->get_brand();
             $d['classify'] = $this->classify_model->get_classify();
-            $d['suppley'] = $this->supply_model->get_suppley();
+            $d['suppley'] = $this->supply_model->get_supply();
             $d['deliver'] = $this->deliver_model->get_deliver();
             $this->layout->view('goods_manage/add_goods', $d);
         }
@@ -67,7 +67,7 @@ class goods_manage extends CI_Controller {
         $d['goods'] = $goods[0];
         $d['brand'] = $this->brand_model->get_brand();
         $d['classify'] = $this->classify_model->get_classify();
-        $d['suppley'] = $this->supply_model->get_suppley();
+        $d['suppley'] = $this->supply_model->get_supply();
         $d['deliver'] = $this->deliver_model->get_deliver();
         $this->layout->view('goods_manage/edit_goods', $d);
     }
@@ -79,7 +79,7 @@ class goods_manage extends CI_Controller {
         $d = array('title' => '商品列表', 'msg' => '');
         $d['brand'] = $this->brand_model->get_brand();
         $d['classify'] = $this->classify_model->get_classify();
-        $d['suppley'] = $this->supply_model->get_suppley();
+        $d['suppley'] = $this->supply_model->get_supply();
         $this->layout->view('goods_manage/goods_list', $d);
     }
 

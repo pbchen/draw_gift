@@ -16,7 +16,7 @@ class supply_model extends CI_Model {
     private $_supply_tb = '`gift_management`.`gift_supply`';
     const SUPPLY_START_STATUS = 1;
     const SUPPLY_STOP_STATUS = 2;
-    private $supply_status = array(
+    private $_supply_status = array(
         '1' => '使用',
         '2' => '停用'
     );
@@ -31,7 +31,7 @@ class supply_model extends CI_Model {
      * @return type
      */
     public function get_supply_status(){
-        return $this->supply_status;
+        return $this->_supply_status;
     }
     
     /**
@@ -61,6 +61,15 @@ class supply_model extends CI_Model {
         }
         if (isset($_REQUEST['status']) && $_REQUEST['status']!=0) {
             $cwhere['`gift_supply`.`status`'] = $_REQUEST['status'];
+        }
+        if (isset($_REQUEST['contact']) && $_REQUEST['contact']!=0) {
+            $cwhere['`gift_supply`.`contact_person` LIKE '] = '%'.$_REQUEST['contact'].'%';
+        }
+        if (isset($_REQUEST['phone']) && $_REQUEST['phone']!=0) {
+            $cwhere['`gift_supply`.`phone` LIKE '] = '%'.$_REQUEST['phone'].'%';
+        }
+        if (isset($_REQUEST['qq']) && $_REQUEST['qq']!=0) {
+            $cwhere['`gift_supply`.`qq` LIKE '] = '%'.$_REQUEST['qq'].'%';
         }
         return $cwhere;
     }
@@ -96,7 +105,8 @@ class supply_model extends CI_Model {
      */
     public function supply_page_data($dtparser){
         $cols = array('`gift_supply`.`id`','`gift_supply`.`name`','`gift_supply`.`status`'
-            ,'IF(`gift`.`id`IS NULL,0,COUNT(DISTINCT(`gift`.`id`))) AS `goods_num`','`gift_supply`.`remark`');
+            ,'IF(`gift`.`id`IS NULL,0,COUNT(DISTINCT(`gift`.`id`))) AS `goods_num`'
+            ,'`gift_supply`.`remark`','`contact_person`','`phone`','`qq`');
         $sort_cols = array('4'=>'`goods_num`');
         $filter_cols = array();
         //查询主表
@@ -130,7 +140,7 @@ class supply_model extends CI_Model {
             $v['checkbox'] = "<input name='row_sel' type='checkbox' id='{$v['id']}'>";
             $v['oper'] = "<a rel='{$v['id']}'class='edit oper'>编辑</a>";
             $v['oper'] .= "<a rel='{$v['id']}'class='load oper'>&nbsp;&nbsp;&nbsp;导入</a>";
-            $v['status'] = isset($this->supply_status[$v['status']])?$this->supply_status[$v['status']]:'';
+            $v['status'] = isset($this->_supply_status[$v['status']])?$this->_supply_status[$v['status']]:'';
         }
     }
     

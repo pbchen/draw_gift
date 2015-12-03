@@ -16,7 +16,7 @@ class classify_model extends CI_Model {
     private $_classify_tb = '`gift_management`.`gift_classify`';
     const CLASSIFY_START_STATUS = 1;
     const CLASSIFY_STOP_STATUS = 2;
-    private $classify_status = array(
+    private $_classify_status = array(
         '1' => '使用',
         '2' => '停用'
     );
@@ -31,7 +31,7 @@ class classify_model extends CI_Model {
      * @return type
      */
     public function get_classify_status(){
-        return $this->classify_status;
+        return $this->_classify_status;
     }
     
     /**
@@ -130,7 +130,7 @@ class classify_model extends CI_Model {
             $v['checkbox'] = "<input name='row_sel' type='checkbox' id='{$v['id']}'>";
             $v['oper'] = "<a rel='{$v['id']}'class='edit oper'>编辑</a>";
             $v['oper'] .= "<a rel='{$v['id']}'class='load oper'>&nbsp;&nbsp;&nbsp;导入</a>";
-            $v['status'] = isset($this->classify_status[$v['status']])?$this->classify_status[$v['status']]:'';
+            $v['status'] = isset($this->_classify_status[$v['status']])?$this->_classify_status[$v['status']]:'';
         }
     }
     

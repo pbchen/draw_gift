@@ -27,6 +27,9 @@ class supply extends CI_Controller {
     public function add_supply(){
         $d['status'] = 1;
         $d['name'] = $this->input->post('name');
+        $d['contact_person'] = $this->input->post('contact');
+        $d['phone'] = $this->input->post('phone');
+        $d['qq'] = $this->input->post('qq');
         $d['remark'] = $this->input->post('remark');
         if($id=$this->supply_model->add_supply($d)){
             json_out_put(return_model(0, '添加成功', $id));
@@ -41,6 +44,9 @@ class supply extends CI_Controller {
     public function edit_supply(){
         $d['status'] = $this->input->post('status');
         $d['name'] = $this->input->post('name');
+        $d['contact_person'] = $this->input->post('contact');
+        $d['phone'] = $this->input->post('phone');
+        $d['qq'] = $this->input->post('qq');
         $d['remark'] = $this->input->post('remark');
         $id = $this->input->post('id');
         if($check_info=$this->supply_model->check_supply_update(array($id),$d['status'])){

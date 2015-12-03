@@ -25,7 +25,9 @@
                 </div>
 
                 <div class="main_content">
+                    <?php if(defined('PAGE_RENDER') && PAGE_RENDER):?>
                     <div style="text-align:center">Page rendered in <strong>{elapsed_time}</strong> seconds</div>
+                    <?php endif;?>
                 </div>
             </div>
 

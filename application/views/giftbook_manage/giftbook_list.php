@@ -5,22 +5,13 @@
 
 <div class="row">
     <div class="col-sm-12 col-md-12">
-        <h3 class="heading">供应商列表</h3>
+        <h3 class="heading">礼册列表</h3>
         <div class="w-box-header">
             <div class="pull-left sort-disabled margin-left-2">
-                <input name="s_name" class="input-medium form-control" placeholder="供应商名称" type="text">
+                <input name="s_name" class="input-medium form-control" placeholder="礼册名称" type="text">
             </div>
             <div class="pull-left sort-disabled margin-left-2">
-                <input name="s_id" class="input-medium form-control" placeholder="供应商id" type="text">
-            </div>
-            <div class="pull-left sort-disabled margin-left-2">
-                <input name="s_contact" class="input-medium form-control" placeholder="联系人" type="text">
-            </div>
-            <div class="pull-left sort-disabled margin-left-2">
-                <input name="s_phone" class="input-medium form-control" placeholder="手机号" type="text">
-            </div>
-            <div class="pull-left sort-disabled margin-left-2">
-                <input name="s_qq" class="input-medium form-control" placeholder="QQ" type="text">
+                <input name="s_id" class="input-medium form-control" placeholder="礼册id" type="text">
             </div>
             <div class="pull-left sort-disabled margin-left-2">
                 <select name="s_status" class="select-medium form-control">
@@ -36,24 +27,21 @@
         <div class="empty"></div>
         <div class="w-box-header">
             <div class="pull-left sort-disabled">
-                <a class="btn btn-success label" id="add-supply">新建</a>
-                <a class="btn btn-success label margin-left-2" id="stop-supply">停用</a>
-                <a class="btn btn-success label margin-left-2" id="start-supply">启用</a>
+                <a class="btn btn-success label" id="add-giftbook">新建</a>
+                <a class="btn btn-success label margin-left-2" id="stop-giftbook">停用</a>
+                <a class="btn btn-success label margin-left-2" id="start-giftbook">启用</a>
             </div>
         </div>
-        <table class="table table-striped table-bordered dTableR" id="supply_tb">
+        <table class="table table-striped table-bordered dTableR" id="giftbook_tb">
             <thead>
                 <tr>
                     <th class="table_checkbox center">
-                        <input name="select_rows" class="select_rows" data-tableid="supply_tb" type="checkbox">
+                        <input name="select_rows" class="select_rows" data-tableid="giftbook_tb" type="checkbox">
                     </th>
                     <th class="center">名&nbsp;&nbsp;称</th>
                     <th class="center">id</th>
                     <th class="center">状&nbsp;&nbsp;态</th>
-                    <th class="center">商品数量</th>
-                    <th class="center">联系人</th>
-                    <th class="center">手机号</th>
-                    <th class="center">QQ</th>
+                    <th class="center">数量</th>
                     <th class="center">备&nbsp;&nbsp;注</th>
                     <th class="center">&nbsp;&nbsp;操作&nbsp;&nbsp;</th>
                 </tr>
@@ -66,43 +54,22 @@
 </div>
 
 <!---------新建弹层---------->
-<div class="modal fade" id="add-supply-modal">
+<div class="modal fade" id="add-giftbook-modal">
     <div class="modal-dialog">
         <div class="modal-content" id="modal-max-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title">新建供应商</h3>
+                <h3 class="modal-title">新建礼册</h3>
             </div>
             <div class="modal-body">
                 <table class="table table-condensed table-striped">
                     <tbody>
                         <tr>
-                            <td class="center">名称</td>
+                            <td class="center">礼册名称</td>
                             <td>
                                 <input name="a_name" type="text" class="form-control">
                             </td>
                             <td class="alert-label-error center" id="name-error"></td>
-                        </tr>
-                        <tr>
-                            <td class="center">联系人</td>
-                            <td>
-                                <input name="a_contact" type="text" class="form-control">
-                            </td>
-                            <td class="alert-label-error center" id="contact-error"></td>
-                        </tr>
-                        <tr>
-                            <td class="center">联系电话</td>
-                            <td>
-                                <input name="a_phone" type="text" class="form-control">
-                            </td>
-                            <td class="alert-label-error center" id="phone-error"></td>
-                        </tr>
-                        <tr>
-                            <td class="center">QQ</td>
-                            <td>
-                                <input name="a_qq" type="text" class="form-control">
-                            </td>
-                            <td class="alert-label-error center" id="qq-error"></td>
                         </tr>
                         <tr>
                             <td class="center">备注</td>
@@ -113,7 +80,7 @@
                         </tr>
                         <tr>
                             <td colspan="3" class="center">
-                                <button type="button" class="btn btn-success" id="add-supply-bnt">确认</button>
+                                <button type="button" class="btn btn-success" id="add-giftbook-bnt">确认</button>
                             </td>
                         </tr>
                     </tbody>
@@ -124,18 +91,18 @@
 </div>
 
 <!---------编辑弹层---------->
-<div class="modal fade" id="edit-supply-modal">
+<div class="modal fade" id="edit-giftbook-modal">
     <div class="modal-dialog">
         <div class="modal-content" id="modal-max-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title">编辑供应商</h3>
+                <h3 class="modal-title">编辑礼册</h3>
             </div>
             <div class="modal-body">
                 <table class="table table-condensed table-striped">
                     <tbody>
                         <tr>
-                            <td class="center">id</td>
+                            <td class="center">礼册id</td>
                             <td>
                                 <span name="e_id" class="form-control"></span>
                             </td>
@@ -146,27 +113,6 @@
                                 <input name="e_name" type="text" class="form-control">
                             </td>
                             <td class="alert-label-error center" id="edit-name-error"></td>
-                        </tr>
-                        <tr>
-                            <td class="center">联系人</td>
-                            <td>
-                                <input name="e_contact" type="text" class="form-control">
-                            </td>
-                            <td class="alert-label-error center" id="edit-contact-error"></td>
-                        </tr>
-                        <tr>
-                            <td class="center">联系电话</td>
-                            <td>
-                                <input name="e_phone" type="text" class="form-control">
-                            </td>
-                            <td class="alert-label-error center" id="edit-phone-error"></td>
-                        </tr>
-                        <tr>
-                            <td class="center">QQ</td>
-                            <td>
-                                <input name="e_qq" type="text" class="form-control">
-                            </td>
-                            <td class="alert-label-error center" id="edit-qq-error"></td>
                         </tr>
                         <tr>
                             <td class="center">状态</td>
@@ -187,7 +133,7 @@
                         </tr>
                         <tr>
                             <td colspan="3" class="center">
-                                <button type="button" class="btn btn-success" id="edit-supply-bnt">确认</button>
+                                <button type="button" class="btn btn-success" id="edit-giftbook-bnt">确认</button>
                             </td>
                         </tr>
                     </tbody>
@@ -210,5 +156,5 @@
 <!-- tables functions -->
 <script src="<?php echo RES; ?>js/pages/gebo_tables.js"></script>
 
-<script src="<?php echo RES; ?>supply/supply_list.js"></script>
+<script src="<?php echo RES; ?>giftbook/giftbook_list.js"></script>
 

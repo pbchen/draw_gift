@@ -19,12 +19,12 @@ class goods_manage_model extends CI_Model {
     //组合商品
     const MULTIPLE_GOODS_TYPE = 2;
     //商品状态
-    private $goods_status = array(
+    private $_goods_status = array(
                 '1' => '上架',
                 '2' => '下架'
             );
     //商品组合形式
-    private $goods_type = array(
+    private $_goods_type = array(
                 '1' => '单品',
                 '2' => '组合'
             );
@@ -250,8 +250,8 @@ class goods_manage_model extends CI_Model {
             $v['oper'] = "<a rel='{$v['id']}'class='edit oper'href='/goods_manage/edit_goods?id={$v['id']}'>编辑</a>";
             //$v['oper'] .= "<a rel='{$v['id']}'class='minus oper'>&nbsp;&nbsp;&nbsp;出库</a>";
             //$v['oper'] .= "<a rel='{$v['id']}'class='add oper'>&nbsp;&nbsp;&nbsp;入库</a>";
-            $v['status'] = isset($this->goods_status[$v['status']])?$this->goods_status[$v['status']]:'';
-            $v['type'] = isset($this->goods_type[$v['type']])?$this->goods_type[$v['type']]:'';
+            $v['status'] = isset($this->_goods_status[$v['status']])?$this->_goods_status[$v['status']]:'';
+            $v['type'] = isset($this->_goods_type[$v['type']])?$this->_goods_type[$v['type']]:'';
         }
     }
     

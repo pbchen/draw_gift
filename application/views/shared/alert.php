@@ -4,7 +4,7 @@
     .alert-label-error{text-align: left;color: red;}
     .table>tbody>tr>td.alert-label-error{text-align: left;min-width: 60px;}
     div.modal-body>.table>tbody>tr>td{border: 0px;background-color: white;}
-    #modal-max-content{max-width: 720px;max-height: 420px;margin-top: 20%;margin-left: 10%;}
+    #modal-max-content{max-width: 800px;max-height: 540px;margin-top: 20%;margin-left: 10%;}
 </style>
 <div class="modal fade" id="alert-error">
     <div class="modal-dialog">
