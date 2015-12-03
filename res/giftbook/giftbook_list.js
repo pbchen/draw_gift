@@ -23,7 +23,7 @@ $(document).ready(function () {
         "bServerSide": true,
         "aoColumnDefs": [
             {
-                "aTargets": [0, 1, 2, 3, 5, 6],
+                "aTargets": [0, 1, 2, 3, 5, 7, 8, 9],
                 "bSortable": false
             }
         ],
@@ -32,8 +32,10 @@ $(document).ready(function () {
             {"mData": "name"},
             {"mData": "id"},
             {"mData": "status"},
+            {"mData": "theme"},
+            {"mData": "set"},
             {"mData": "goods_num"},
-            {"mData": "remark"},
+            {"mData": "type"},
             {"mData": "oper"}
         ],
         "oLanguage": {

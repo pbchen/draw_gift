@@ -16,6 +16,31 @@
             <div class="pull-left sort-disabled margin-left-2">
                 <select name="s_status" class="select-medium form-control">
                     <option value="0">全部状态</option>
+                    <?php foreach($theme as $v):?>
+                    <option value="<?php echo $v['id'];?>"><?php echo $v['name'];?></option>
+                    <?php endforeach;?>
+                </select>
+            </div>
+            <div class="pull-left sort-disabled margin-left-2">
+                <select name="s_theme" class="select-medium form-control">
+                    <option value="0">全部状态</option>
+                    <?php foreach($set as $v):?>
+                    <option value="<?php echo $v['id'];?>"><?php echo $v['name'];?></option>
+                    <?php endforeach;?>
+                </select>
+            </div>
+            <div class="pull-left sort-disabled margin-left-2">
+                <select name="s_set" class="select-medium form-control">
+                    <option value="0">全部状态</option>
+                    <option value="1">普通卡</option>
+                    <option value="2">年卡</option>
+                    <option value="3">半年卡</option>
+                    <option value="3">季卡</option>
+                </select>
+            </div>
+            <div class="pull-left sort-disabled margin-left-2">
+                <select name="s_type" class="select-medium form-control">
+                    <option value="0">全部状态</option>
                     <option value="1">使用</option>
                     <option value="2">停用</option>
                 </select>
@@ -41,8 +66,10 @@
                     <th class="center">名&nbsp;&nbsp;称</th>
                     <th class="center">id</th>
                     <th class="center">状&nbsp;&nbsp;态</th>
-                    <th class="center">数量</th>
-                    <th class="center">备&nbsp;&nbsp;注</th>
+                    <th class="center">价&nbsp;&nbsp;格</th>
+                    <th class="center">主&nbsp;&nbsp;题</th>
+                    <th class="center">系&nbsp;&nbsp;列</th>
+                    <th class="center">礼册类型</th>
                     <th class="center">&nbsp;&nbsp;操作&nbsp;&nbsp;</th>
                 </tr>
             </thead>
@@ -50,96 +77,6 @@
 
             </tbody>        
         </table>
-    </div>
-</div>
-
-<!---------新建弹层---------->
-<div class="modal fade" id="add-giftbook-modal">
-    <div class="modal-dialog">
-        <div class="modal-content" id="modal-max-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title">新建礼册</h3>
-            </div>
-            <div class="modal-body">
-                <table class="table table-condensed table-striped">
-                    <tbody>
-                        <tr>
-                            <td class="center">礼册名称</td>
-                            <td>
-                                <input name="a_name" type="text" class="form-control">
-                            </td>
-                            <td class="alert-label-error center" id="name-error"></td>
-                        </tr>
-                        <tr>
-                            <td class="center">备注</td>
-                            <td>
-                                <textarea name="a_remark" cols="6" rows="3" class="form-control"></textarea>
-                            </td>
-                            <td class="alert-label-error center" id="remark-error"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" class="center">
-                                <button type="button" class="btn btn-success" id="add-giftbook-bnt">确认</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!---------编辑弹层---------->
-<div class="modal fade" id="edit-giftbook-modal">
-    <div class="modal-dialog">
-        <div class="modal-content" id="modal-max-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title">编辑礼册</h3>
-            </div>
-            <div class="modal-body">
-                <table class="table table-condensed table-striped">
-                    <tbody>
-                        <tr>
-                            <td class="center">礼册id</td>
-                            <td>
-                                <span name="e_id" class="form-control"></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="center">名称</td>
-                            <td>
-                                <input name="e_name" type="text" class="form-control">
-                            </td>
-                            <td class="alert-label-error center" id="edit-name-error"></td>
-                        </tr>
-                        <tr>
-                            <td class="center">状态</td>
-                            <td>
-                                <select name="e_status" class="form-control">
-                                    <option value="1">启用</option>
-                                    <option value="2">停用</option>
-                                </select>
-                            </td>
-                            <td class="alert-label-error center" id="edit-status-error"></td>
-                        </tr>
-                        <tr>
-                            <td class="center">备注</td>
-                            <td>
-                                <textarea name="e_remark" cols="6" rows="2" class="form-control"></textarea>
-                            </td>
-                            <td class="alert-label-error center" id="edit-remark-error"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" class="center">
-                                <button type="button" class="btn btn-success" id="edit-giftbook-bnt">确认</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
     </div>
 </div>
 
