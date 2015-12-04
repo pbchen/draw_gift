@@ -31,7 +31,7 @@ class classify extends CI_Controller {
         if($id=$this->classify_model->add_classify($d)){
             json_out_put(return_model(0, '添加成功', $id));
         }else{
-            json_out_put(return_model('3001', '添加失败', NULL));
+            json_out_put(return_model('2031', '添加失败', NULL));
         }
     }
     
@@ -44,13 +44,13 @@ class classify extends CI_Controller {
         $d['remark'] = $this->input->post('remark');
         $id = $this->input->post('id');
         if($check_info=$this->classify_model->check_classify_update(array($id),$d['status'])){
-            json_out_put(return_model('3002', $check_info, NULL));
+            json_out_put(return_model('2032', $check_info, NULL));
         }
         $affect_row = $this->classify_model->update_classify_info($d,array('id'=>$id));
         if (is_numeric($affect_row)) {
             json_out_put(return_model(0, '更新成功', $affect_row));
         } else {
-            json_out_put(return_model('3002', '更新失败', NULL));
+            json_out_put(return_model('2032', '更新失败', NULL));
         }
     }
     
@@ -61,7 +61,7 @@ class classify extends CI_Controller {
         $ids = $this->input->post('ids');
         $d['status'] = $this->input->post('status');
         if($check_info=$this->classify_model->check_classify_update($ids,$d['status'])){
-            json_out_put(return_model('3002', $check_info, NULL));
+            json_out_put(return_model('2032', $check_info, NULL));
         }
         $this->db->where_in('id',$ids);
         $aff_row = $this->classify_model->update_classify_info($d);

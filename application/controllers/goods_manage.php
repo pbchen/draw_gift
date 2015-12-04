@@ -40,13 +40,13 @@ class goods_manage extends CI_Controller {
 
             if ($data['type'] == goods_manage_model::MULTIPLE_GOODS_TYPE) {
                 if ($check_info = $this->goods_manage_model->check_goods_num($data['groupid'], 1)) {
-                    json_out_put(return_model('1002', $check_info, NULL));
+                    json_out_put(return_model('2002', $check_info, NULL));
                 }
             }
             if ($insert_id = $this->goods_manage_model->add_goods($data)) {
                 json_out_put(return_model(0, '添加成功', $insert_id));
             } else {
-                json_out_put(return_model('1001', '添加失败', NULL));
+                json_out_put(return_model('2001', '添加失败', NULL));
             }
         } else {
             $d = array('title' => '商品管理', 'msg' => '', 'no_load_bootstrap_plugins' => true);
@@ -122,14 +122,14 @@ class goods_manage extends CI_Controller {
         $data = $this->goods_manage_model->get_goods_params();
         if ($data['type'] == goods_manage_model::MULTIPLE_GOODS_TYPE) {
             if ($check_info = $this->goods_manage_model->check_goods_num($data['groupid'], 1)) {
-                json_out_put(return_model('1002', $check_info, NULL));
+                json_out_put(return_model('2002', $check_info, NULL));
             }
         }
         $affect_row = $this->goods_manage_model->update_goods_info($data,array('id'=>$goods_id));
         if (is_numeric($affect_row)) {
             json_out_put(return_model(0, '更新成功', $affect_row));
         } else {
-            json_out_put(return_model('1001', '更新失败', NULL));
+            json_out_put(return_model('2001', '更新失败', NULL));
         }
     }
     

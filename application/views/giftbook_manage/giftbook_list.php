@@ -16,33 +16,33 @@
             <div class="pull-left sort-disabled margin-left-2">
                 <select name="s_status" class="select-medium form-control">
                     <option value="0">全部状态</option>
+                    <option value="1">使用</option>
+                    <option value="2">停用</option>
+                </select>
+            </div>
+            <div class="pull-left sort-disabled margin-left-2">
+                <select name="s_theme" class="select-medium form-control">
+                    <option value="0">全部主题</option>
                     <?php foreach($theme as $v):?>
                     <option value="<?php echo $v['id'];?>"><?php echo $v['name'];?></option>
                     <?php endforeach;?>
                 </select>
             </div>
             <div class="pull-left sort-disabled margin-left-2">
-                <select name="s_theme" class="select-medium form-control">
-                    <option value="0">全部状态</option>
+                <select name="s_set" class="select-medium form-control">
+                    <option value="0">全部系列</option>
                     <?php foreach($set as $v):?>
                     <option value="<?php echo $v['id'];?>"><?php echo $v['name'];?></option>
                     <?php endforeach;?>
                 </select>
             </div>
             <div class="pull-left sort-disabled margin-left-2">
-                <select name="s_set" class="select-medium form-control">
-                    <option value="0">全部状态</option>
+                <select name="s_type" class="select-medium form-control">
+                    <option value="0">全部类型</option>
                     <option value="1">普通卡</option>
                     <option value="2">年卡</option>
                     <option value="3">半年卡</option>
-                    <option value="3">季卡</option>
-                </select>
-            </div>
-            <div class="pull-left sort-disabled margin-left-2">
-                <select name="s_type" class="select-medium form-control">
-                    <option value="0">全部状态</option>
-                    <option value="1">使用</option>
-                    <option value="2">停用</option>
+                    <option value="4">季卡</option>
                 </select>
             </div>
             <div class="pull-left sort-disabled margin-left-6">
@@ -69,6 +69,7 @@
                     <th class="center">价&nbsp;&nbsp;格</th>
                     <th class="center">主&nbsp;&nbsp;题</th>
                     <th class="center">系&nbsp;&nbsp;列</th>
+                    <th class="center">商品数量</th>
                     <th class="center">礼册类型</th>
                     <th class="center">&nbsp;&nbsp;操作&nbsp;&nbsp;</th>
                 </tr>

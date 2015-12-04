@@ -34,7 +34,7 @@ class supply extends CI_Controller {
         if($id=$this->supply_model->add_supply($d)){
             json_out_put(return_model(0, '添加成功', $id));
         }else{
-            json_out_put(return_model('2001', '添加失败', NULL));
+            json_out_put(return_model('2041', '添加失败', NULL));
         }
     }
     
@@ -50,13 +50,13 @@ class supply extends CI_Controller {
         $d['remark'] = $this->input->post('remark');
         $id = $this->input->post('id');
         if($check_info=$this->supply_model->check_supply_update(array($id),$d['status'])){
-            json_out_put(return_model('2002', $check_info, NULL));
+            json_out_put(return_model('2042', $check_info, NULL));
         }
         $affect_row = $this->supply_model->update_supply_info($d,array('id'=>$id));
         if (is_numeric($affect_row)) {
             json_out_put(return_model(0, '更新成功', $affect_row));
         } else {
-            json_out_put(return_model('2002', '更新失败', NULL));
+            json_out_put(return_model('2042', '更新失败', NULL));
         }
     }
     
@@ -67,7 +67,7 @@ class supply extends CI_Controller {
         $ids = $this->input->post('ids');
         $d['status'] = $this->input->post('status');
         if($check_info=$this->supply_model->check_supply_update($ids,$d['status'])){
-            json_out_put(return_model('2002', $check_info, NULL));
+            json_out_put(return_model('2042', $check_info, NULL));
         }
         $this->db->where_in('id',$ids);
         $aff_row = $this->supply_model->update_supply_info($d);

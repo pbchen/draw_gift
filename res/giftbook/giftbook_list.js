@@ -23,7 +23,7 @@ $(document).ready(function () {
         "bServerSide": true,
         "aoColumnDefs": [
             {
-                "aTargets": [0, 1, 2, 3, 5, 7, 8, 9],
+                "aTargets": [0, 1, 2, 3, 4, 5, 6, 8, 9],
                 "bSortable": false
             }
         ],
@@ -32,6 +32,7 @@ $(document).ready(function () {
             {"mData": "name"},
             {"mData": "id"},
             {"mData": "status"},
+            {"mData": "price"},
             {"mData": "theme"},
             {"mData": "set"},
             {"mData": "goods_num"},
@@ -66,7 +67,10 @@ $(document).ready(function () {
         var params;
         params = "?id=" + $("input[name=s_id]").val()
                 + "&name=" + encodeURIComponent($("input[name=s_name]").val())
-                + "&status=" + $("select[name=s_status]").val();
+                + "&status=" + $("select[name=s_status]").val()
+                + "&theme=" + $("select[name=s_theme]").val()
+                + "&set=" + $("select[name=s_set]").val()
+                + "&type=" + $("select[name=s_type]").val();
         return params;
     }
 
@@ -86,10 +90,10 @@ $(document).ready(function () {
     //停用和启动操作
     function downUpOper(clickId) {
         var status = 1;
-        var msg = '请选择要启用的品牌！';
+        var msg = '请选择要启用的礼册！';
         if (clickId == 'stop-giftbook') {
             status = 2;
-            msg = '请选择要停用的品牌！';
+            msg = '请选择要停用的礼册！';
         }
         var flag = true;
         var ids = getCheckedIds();

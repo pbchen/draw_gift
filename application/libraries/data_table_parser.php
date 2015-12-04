@@ -111,7 +111,7 @@ class Data_table_parser {
      * Datatable的参数初始化到db的查询条件中
      * databales的解析参考 http://datatables.net/examples/data_sources/server_side.html
      */
-    function initialize() {
+    function initialize($init_sort=true) {
         //databales的解析参考 http://datatables.net/examples/data_sources/server_side.html
         if (isset($_REQUEST['iDisplayStart']) && $_REQUEST['iDisplayLength'] != '-1') {
             $this->start = intval($_REQUEST['iDisplayStart']);
@@ -119,10 +119,12 @@ class Data_table_parser {
         }
 
         //Sort
-        if (isset($_REQUEST['iSortCol_0'])) {
-            for ($i = 0; $i < intval($_REQUEST['iSortingCols']); $i++) {
-                if ($_REQUEST['bSortable_' . intval($_REQUEST['iSortCol_' . $i])] == "true") {
-                    $this->db->order_by($this->sort_cols[intval($_REQUEST['iSortCol_' . $i])], ($_REQUEST['sSortDir_' . $i] === 'asc' ? 'asc' : 'desc'));
+        if($init_sort){
+            if (isset($_REQUEST['iSortCol_0'])) {
+                for ($i = 0; $i < intval($_REQUEST['iSortingCols']); $i++) {
+                    if ($_REQUEST['bSortable_' . intval($_REQUEST['iSortCol_' . $i])] == "true") {
+                        $this->db->order_by($this->sort_cols[intval($_REQUEST['iSortCol_' . $i])], ($_REQUEST['sSortDir_' . $i] === 'asc' ? 'asc' : 'desc'));
+                    }
                 }
             }
         }
@@ -223,7 +225,7 @@ class Data_table_parser {
         if ($cwhere) {
             $this->db->where($cwhere);
         }
-        $this->initialize();
+        $this->initialize(false);
         return $this->db->count_all_results();
     }
 
@@ -244,7 +246,7 @@ class Data_table_parser {
         if ($cwhere) {
             $this->db->where($cwhere);
         }
-        $this->initialize();
+        $this->initialize(false);
         $this->db->group_by($group);
         return count($this->db->get()->result());
     }
@@ -270,7 +272,7 @@ class Data_table_parser {
         if ($where_in) {
             $this->db->where_in($where_in['column'], $where_in['$arr']);
         }
-        $this->initialize();
+        $this->initialize(false);
         $this->db->group_by($group);
         return count($this->db->get()->result());
     }

@@ -165,7 +165,7 @@ class goods_manage_model extends CI_Model {
      * @param type $group_goods
      * @return string
      */
-    public function check_goods_num($group_goods,$inventory){
+    public function check_goods_num($group_goods,$inventory=1){
         $goods = array();
         $group_good_arr = explode(',', $group_goods);
         $ret = '商品ID:';

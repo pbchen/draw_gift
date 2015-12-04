@@ -31,7 +31,7 @@ class brand extends CI_Controller {
         if($id=$this->brand_model->add_brand($d)){
             json_out_put(return_model(0, '添加成功', $id));
         }else{
-            json_out_put(return_model('2001', '添加失败', NULL));
+            json_out_put(return_model('2011', '添加失败', NULL));
         }
     }
     
@@ -44,13 +44,13 @@ class brand extends CI_Controller {
         $d['remark'] = $this->input->post('remark');
         $id = $this->input->post('id');
         if($check_info=$this->brand_model->check_brand_update(array($id),$d['status'])){
-            json_out_put(return_model('2002', $check_info, NULL));
+            json_out_put(return_model('2022', $check_info, NULL));
         }
         $affect_row = $this->brand_model->update_brand_info($d,array('id'=>$id));
         if (is_numeric($affect_row)) {
             json_out_put(return_model(0, '更新成功', $affect_row));
         } else {
-            json_out_put(return_model('2002', '更新失败', NULL));
+            json_out_put(return_model('2022', '更新失败', NULL));
         }
     }
     
@@ -61,7 +61,7 @@ class brand extends CI_Controller {
         $ids = $this->input->post('ids');
         $d['status'] = $this->input->post('status');
         if($check_info=$this->brand_model->check_brand_update($ids,$d['status'])){
-            json_out_put(return_model('2002', $check_info, NULL));
+            json_out_put(return_model('2022', $check_info, NULL));
         }
         $this->db->where_in('id',$ids);
         $aff_row = $this->brand_model->update_brand_info($d);
