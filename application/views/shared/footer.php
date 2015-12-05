@@ -36,10 +36,6 @@
 <script src="<?php echo RES; ?>js/selectNav.js"></script>
 <!-- moment.js date library -->
 <script src="<?php echo RES; ?>lib/moment/moment.min.js"></script>
-<!-- datepicker -->
-<script src="<?php echo RES; ?>lib/datepicker/bootstrap-datepicker.min.js"></script>
-<!-- timepicker -->
-<script src="<?php echo RES; ?>lib/timepicker/js/bootstrap-timepicker.min.js"></script>
 <!-- common functions -->
 <script src="<?php echo RES; ?>js/pages/gebo_common.js"></script>
 
