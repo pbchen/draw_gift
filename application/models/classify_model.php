@@ -129,7 +129,13 @@ class classify_model extends CI_Model {
         foreach($pageData as &$v){
             $v['checkbox'] = "<input name='row_sel' type='checkbox' id='{$v['id']}'>";
             $v['oper'] = "<a rel='{$v['id']}'class='edit oper'>编辑</a>";
-            $v['oper'] .= "<a rel='{$v['id']}'class='load oper'>&nbsp;&nbsp;&nbsp;导入</a>";
+            $v['oper'] .= "<a rel='{$v['id']}'class='load oper fileinput-button'>&nbsp;&nbsp;&nbsp;导入"
+            . '<input class="upload-file" type="file" name="files" multiple
+                data-url="/reports/report_creative_day_is/upload"
+                data-sequential-uploads="true"
+                data-form-data='."'".'{"script": "true"}'."'".'>'
+            . "</a>";
+            
             $v['status'] = isset($this->_classify_status[$v['status']])?$this->_classify_status[$v['status']]:'';
         }
     }

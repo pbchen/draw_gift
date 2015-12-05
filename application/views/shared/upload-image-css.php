@@ -15,4 +15,5 @@
     span.fileinput-button{margin-left: 14px;}
     span.start,span.cancel,span.delete{width:40px;cursor: pointer;}
     span.cancel{margin-left:14px;}
+    a.fileinput-button{vertical-align: middle;}
 </style>

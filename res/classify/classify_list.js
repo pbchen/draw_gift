@@ -196,6 +196,26 @@ $(document).ready(function () {
             }
         });
     })
+    
+    $('.uploade-file').fileupload({
+            
+                add: function(e, data) {
+                    console.log('asdfasfd');
+                    data.submit();
+                }
+                , done: function(e, data) {
+                    var data = data.result;
+                    var message = '';
+                    if (message) {
+                        $(".alert").removeClass('hide');
+                        $(".alert").removeClass('alert-success');
+                        $(".alert").addClass('alert-error');
+                        $(".alert-ontice").text('上传失败: ' + message);
+                    } else if (data['count']) {
+
+                    }
+                }
+            });
 
 });
 

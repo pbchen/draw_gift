@@ -1,6 +1,7 @@
 <!-- datatables -->
 <link rel="stylesheet" href="<?php echo RES; ?>lib/datatables/extras/TableTools/media/css/TableTools.css">
 <link rel="stylesheet" href="<?php echo RES; ?>/common/common.css" />
+<?php $this->load->view('shared/upload-image-css'); ?>
 <?php $this->load->view('shared/alert'); ?>
 
 <div class="row">
@@ -155,6 +156,7 @@
 <script src="<?php echo RES; ?>js/pages/gebo_datatables.js"></script>
 <!-- tables functions -->
 <script src="<?php echo RES; ?>js/pages/gebo_tables.js"></script>
+<?php $this->load->view('shared/upload-image'); ?>
 
 <script src="<?php echo RES; ?>classify/classify_list.js"></script>
 
