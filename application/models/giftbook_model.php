@@ -149,39 +149,13 @@ class giftbook_model extends CI_Model {
     }
 
     /**
-     * 检查商品个数
-     * @param type $group_giftbook
-     * @return string
-     */
-    public function check_giftbook_num($group_giftbook, $inventory) {
-        $giftbook = array();
-        $group_good_arr = explode(',', $group_giftbook);
-        $ret = '商品ID:';
-        foreach ($group_good_arr as $g) {
-            if (!$g)
-                continue;
-            $g_info = explode('*', $g);
-            $giftbook[$g_info[0]] = isset($g_info[1]) ? $g_info[1] * $inventory : $inventory;
-        }
-        $giftbook_num = $this->get_giftbook_num(array_keys($giftbook));
-        foreach ($giftbook as $k => $v) {
-            if (!isset($giftbook_num[$k]) OR ( $v > $giftbook_num[$k])) {
-                $maind = isset($giftbook_num[$k]) ? $giftbook_num[$k] : 0;
-                $ret .= $k . ' 超出：' . ($v - $maind) . '个, ';
-            }
-        }
-        $ret = $ret == '商品ID:' ? '' : $ret;
-        return $ret;
-    }
-
-    /**
      * 获取商品库存
      * @param type $good_ids
      * @return type
      */
-    public function get_giftbook_num($good_ids) {
+    public function get_giftbook_num($giftbook_ids) {
         $this->db->select('store_num,id')->from($this->_giftbook_tb);
-        $this->db->where_in('id', $good_ids);
+        $this->db->where_in('id', $giftbook_ids);
         $query = $this->db->get();
         $giftbook_num = array();
         foreach ($query->result() as $row) {

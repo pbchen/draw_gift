@@ -10,54 +10,61 @@
         <form class="form-horizontal" id="fileupload">
             <fieldset>
                 <div class="form-group">
-                    <label for="a_name" class="control-label col-sm-2">礼册名称</label>
+                    <label for="e_id" class="control-label col-sm-2">礼册id</label>
                     <div class="col-sm-5">
-                        <input name="a_name" id="a_name" class="input-xlarge form-control" value="" type="text">
+                        <span class="input-xlarge form-control"><?php echo $giftbook['id'] ?></span>
+                        <input name="e_id" id="e_id" type="hidden" value="<?php echo $giftbook['id'] ?>">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="a_price" class="control-label col-sm-2">销售价格</label>
-                    <div class="col-sm-2">
-                        <input name="a_price" id="a_price" class="input-xlarge form-control" value="" type="text">
+                    <label for="e_name" class="control-label col-sm-2">礼册名称</label>
+                    <div class="col-sm-5">
+                        <input name="e_name" id="e_name" class="input-xlarge form-control" value="<?php echo $giftbook['name'] ?>" type="text">
                     </div>
-                    <label for="a_type" class="control-label col-sm-1">礼册类型</label>
+                </div>
+                <div class="form-group">
+                    <label for="e_price" class="control-label col-sm-2">销售价格</label>
                     <div class="col-sm-2">
-                        <select name="a_type" id="a_type" data-placeholder="选择类型..." class="chzn_a form-control">
-                            <option value="1" selected="selected">普通卡</option>
-                            <option value="2">年卡</option>
-                            <option value="3">半年卡</option>
-                            <option value="4">季卡</option>
+                        <input name="e_price" id="e_price" class="input-xlarge form-control" value="<?php echo $giftbook['sale_price'] ?>" type="text">
+                    </div>
+                    <label for="e_type" class="control-label col-sm-1">礼册类型</label>
+                    <div class="col-sm-2">
+                        <select name="e_type" id="e_type" data-placeholder="选择类型..." class="chzn_a form-control">
+                            <option value="1" <?php echo $giftbook['type_id']==1 ? 'selected' : '' ?>>普通卡</option>
+                            <option value="2" <?php echo $giftbook['type_id']==2 ? 'selected' : '' ?>>年卡</option>
+                            <option value="3" <?php echo $giftbook['type_id']==3 ? 'selected' : '' ?>>半年卡</option>
+                            <option value="4" <?php echo $giftbook['type_id']==4 ? 'selected' : '' ?>>季卡</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="a_theme" class="control-label col-sm-2">礼册主题</label>
+                    <label for="e_theme" class="control-label col-sm-2">礼册主题</label>
                     <div class="col-sm-2">
-                        <select name="a_theme" id="a_theme" data-placeholder="选择礼册主题..." class="chzn_a form-control">
+                        <select name="e_theme" id="e_theme" data-placeholder="选择礼册主题..." class="chzn_a form-control">
                             <?php foreach($theme as $v):?>
-                            <option value="<?php echo $v['id']?>"><?php echo $v['name']?></option>
+                            <option value="<?php echo $v['id']?>" <?php echo $v['id']==$giftbook['theme_id'] ? 'selected' : '' ?>><?php echo $v['name']?></option>
                             <?php endforeach;?>
                         </select>
                     </div>
-                    <label for="a_set" class="control-label col-sm-1">礼册系列</label>
+                    <label for="e_set" class="control-label col-sm-1">礼册系列</label>
                     <div class="col-sm-2">
-                        <select name="a_set" id="a_set" data-placeholder="选择礼册系列..." class="chzn_a form-control">
+                        <select name="e_set" id="e_set" data-placeholder="选择礼册系列..." class="chzn_a form-control">
                             <?php foreach($set as $v):?>
-                            <option value="<?php echo $v['id']?>"><?php echo $v['name']?></option>
+                            <option value="<?php echo $v['id']?>" <?php echo $v['id']==$giftbook['set_id'] ? 'selected' : '' ?>><?php echo $v['name']?></option>
                             <?php endforeach;?>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="a_giftids" class="control-label col-sm-2">商品id</label>
+                    <label for="e_giftids" class="control-label col-sm-2">商品id</label>
                     <div class="col-sm-5">
-                        <textarea name="a_giftids" id="a_giftids" cols="10" rows="3" class="form-control"></textarea>
+                        <textarea name="e_giftids" id="e_giftids" cols="10" rows="3" class="form-control"><?php echo $giftbook['group_ids'] ?></textarea>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="a_description" class="control-label col-sm-2">礼册描述</label>
+                    <label for="e_description" class="control-label col-sm-2">礼册描述</label>
                     <div class="col-sm-5">
-                        <textarea name="a_description" id="a_description" cols="10" rows="3" class="form-control"></textarea>
+                        <textarea name="e_description" id="e_description" cols="10" rows="3" class="form-control"><?php echo $giftbook['describe'] ?></textarea>
                     </div>
                 </div>
                 <div class="form-group">
@@ -65,7 +72,20 @@
                     <!-- The table listing the files available for upload/download -->
                     <span role="presentation" class="table table-striped">
                         <ul class="files">
-                            
+                            <?php foreach (explode(',', $giftbook['pic_id']) as $img): ?>
+                                <?php if ($img): ?>
+                                    <li class="template-download fade none-list-style in">
+                                        <p class="preview">
+                                            <a href="<?php echo IMAGE_SERVER; ?>files/<?php echo $img; ?>" class="img-uploaded" title="<?php echo $img; ?>" download="<?php echo $img; ?>" data-gallery="">
+                                                <img src="<?php echo IMAGE_SERVER; ?>files/thumbnail/<?php echo $img; ?>">
+                                            </a>
+                                        </p>
+                                        <span class="delete text-center btn-danger img-uploaded" >
+                                            删除
+                                        </span>
+                                    </li>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
                         </ul>
                     </span>
                     <span class="btn btn-success fileinput-button" id="fileupload-bnt" title="添加图片">
@@ -75,15 +95,15 @@
                     </span>
                 </div>
                 <div class="form-group">
-                    <label for="a_remark" class="control-label col-sm-2">礼册备注</label>
+                    <label for="e_remark" class="control-label col-sm-2">礼册备注</label>
                     <div class="col-sm-5">
-                        <textarea name="a_remark" id="a_remark" cols="10" rows="3" class="form-control"></textarea>
+                        <textarea name="e_remark" id="e_remark" cols="10" rows="3" class="form-control"><?php echo $giftbook['remark'] ?></textarea>
                     </div>
                 </div>
                 <br/>
                 <div class="form-group" style="text-align: center;">
-                    <div class="col-sm-5"  style="margin-left: 30%;">
-                        <div class="btn btn-success col-sm-4" id="add-giftbook-ok">完成</div>
+                    <div class="col-sm-8"  style="margin-left: 30%;">
+                        <div class="btn btn-success col-sm-4" id="update-giftbook-ok">完成</div>
                     </div>
                 </div>
             </fieldset>
@@ -113,16 +133,17 @@
             show:false
         });
         
-        $("#add-giftbook-ok").die().live('click',function(){
+        $("#update-giftbook-ok").die().live('click',function(){
             var flag = true;
-            var name = $("#a_name").val();
-            var type = $('#a_type').val();
-            var price = $("#a_price").val();
-            var theme = $("#a_theme").val();
-            var set = $("#a_set").val();
-            var gift_ids = $("#a_giftids").val();
-            var description = $("#a_description").val();
-            var remark = $("#a_remark").val();
+            var id = $("#e_id").val();
+            var name = $("#e_name").val();
+            var type = $('#e_type').val();
+            var price = $("#e_price").val();
+            var theme = $("#e_theme").val();
+            var set = $("#e_set").val();
+            var gift_ids = $("#e_giftids").val();
+            var description = $("#e_description").val();
+            var remark = $("#e_remark").val();
             var pic_ids = getUploadImg();
             var price_preg = /^([0-9]+[\.]?[0-9]+|\d+)$/;
             if(name=='' || name==undefined){
@@ -166,15 +187,15 @@
                 return ;
             }
             if(flag){
-                $.post('/giftbook_manage/add_giftbook',
+                $.post('/giftbook_manage/update_giftbook_info',
                 {
                     name:name,price:price,type:type,theme:theme,
-                    set:set,gift_ids:gift_ids,des:description,
-                    pic_ids:pic_ids,remark:remark
+                    set:set,gift_ids:gift_ids,desciption:description,
+                    pic_id:pic_ids,remark:remark,id:id
                 },function(ret){
                     var d = $.parseJSON(ret);
                     if(d.errCode==0){
-                        alertSuccess("#alert-success",'/giftbook_manage/add_giftbook');
+                        alertSuccess("#alert-success",'/giftbook_manage/giftbook_list');
                     }else{
                         alertError("#alert-error",d.msg);
                     }

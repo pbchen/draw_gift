@@ -29,7 +29,7 @@ class Data_table_parser {
     var $cols;
 
     /**
-     * 查询列格式化，默认是NULL，如果你把它设为FALSE， CodeIgniter 将不会使用反引号保护你的字段或者表名 。这在进行复合查询时很有用。
+     * 查询列格式化，默认是NULL，如果你把它设为FALSE， CodeIgniter 将不会启用反引号保护你的字段或者表名 。这在进行复合查询时很有用。
      * 参考http://codeigniter.org.cn/user_guide/database/active_record.html#select
      * $this->db->select();
      * @var bool
@@ -52,7 +52,7 @@ class Data_table_parser {
     var $filter_cols;
 
     /**
-     * 数据表，这是一个主表，用于连接其他表使用
+     * 数据表，这是一个主表，用于连接其他表启用
      * 如果是单表的话，就不需要下面的join了
      * @var string
      */
@@ -150,7 +150,7 @@ class Data_table_parser {
 
     /**
      * 连表
-     * 如果你想要在查询中使用多个连接，可以多次调用本函数。
+     * 如果你想要在查询中启用多个连接，可以多次调用本函数。
      * 如果你需要指定 JOIN 的类型，你可以通过本函数的第三个参数来指定。可选项包括：left, right, outer, inner, left outer, 以及 right outer.
      * 参考CI的$this->db->join();
      * @param string $table
@@ -164,8 +164,8 @@ class Data_table_parser {
     /**
      * 查询的列，第一个参数，列的数组
      * 排序和筛选默认都是一样的
-     * 可接受一个可选的第二个参数。如果你把它设为FALSE， CodeIgniter 将不会使用反引号保护你的字段或者表名 。这在进行复合查询时很有用
-     * 如果第二个参数是FALSE，那么传入的其他表、字段等都使用``分割
+     * 可接受一个可选的第二个参数。如果你把它设为FALSE， CodeIgniter 将不会启用反引号保护你的字段或者表名 。这在进行复合查询时很有用
+     * 如果第二个参数是FALSE，那么传入的其他表、字段等都启用``分割
      * @param array $cols
      * @param bool $colsFormat
      */
@@ -179,8 +179,8 @@ class Data_table_parser {
     /**
      * 查询的列，第一个参数，列的数组
      * 排序和筛选的列，第二个参数，两个一样
-     * 可接受一个可选的第三个参数。如果你把它设为FALSE， CodeIgniter 将不会使用反引号保护你的字段或者表名 。这在进行复合查询时很有用
-     * 如果第三个参数是FALSE，那么传入的其他表、字段等都使用``分割
+     * 可接受一个可选的第三个参数。如果你把它设为FALSE， CodeIgniter 将不会启用反引号保护你的字段或者表名 。这在进行复合查询时很有用
+     * 如果第三个参数是FALSE，那么传入的其他表、字段等都启用``分割
      * @param arry $cols
      * @param array $sort_filter_cols
      * @param bool $colsFormat
@@ -196,8 +196,8 @@ class Data_table_parser {
      * 查询的列，第一个参数，列的数组
      * 排序的列，第二个参数
      * 筛选的列，第三个参数
-     * 可接受一个可选的第四个参数。如果你把它设为FALSE， CodeIgniter 将不会使用反引号保护你的字段或者表名 。这在进行复合查询时很有用
-     * 如果第四个参数是FALSE，那么传入的其他表、字段等都使用``分割
+     * 可接受一个可选的第四个参数。如果你把它设为FALSE， CodeIgniter 将不会启用反引号保护你的字段或者表名 。这在进行复合查询时很有用
+     * 如果第四个参数是FALSE，那么传入的其他表、字段等都启用``分割
      * Enter description here ...
      * @param array $cols
      * @param array $sort_cols

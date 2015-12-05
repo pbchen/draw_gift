@@ -55,7 +55,7 @@ class brand extends CI_Controller {
     }
     
     /**
-     * 更新商品使用&停用
+     * 更新商品启用&停用
      */
     public function update_brand(){
         $ids = $this->input->post('ids');

@@ -51,6 +51,19 @@ class giftbook_manage extends CI_Controller {
     }
     
     /**
+     * 加载编辑视图
+     */
+    public function edit_giftbook(){
+        $id = $this->input->get('id');
+        $d = array('title' => '编辑礼册', 'msg' => '', 'no_load_bootstrap_plugins' => true);
+        $giftbook = $this->giftbook_model->get_giftbook_info(array('id'=>$id));
+        $d['giftbook'] = $giftbook[0];
+        $d['theme'] = $this->theme_model->get_theme();
+        $d['set'] = $this->set_model->get_set();
+        $this->layout->view('giftbook_manage/edit_giftbook', $d);
+    }
+    
+    /**
      * 礼册列表
      */
     public function giftbook_list() {
@@ -69,7 +82,7 @@ class giftbook_manage extends CI_Controller {
     }
     
     /**
-     * 更新停用&使用
+     * 更新停用&启用
      */
     public function update_giftbook(){
         $ids = $this->input->post('ids');
@@ -80,6 +93,39 @@ class giftbook_manage extends CI_Controller {
         $this->db->where_in('id',$ids);
         $aff_row = $this->giftbook_model->update_giftbook_info($d);
         json_out_put(return_model(0, '添加成功', $aff_row));
+    }
+    
+    /**
+     * 编辑商品
+     */
+    public function update_giftbook_info(){
+        $giftbook_id = $this->input->post('id');
+        $data = $this->giftbook_model->get_giftbook_params();
+        if ($check_info = $this->goods_manage_model->check_goods_num($data['group_ids'])) {
+            json_out_put(return_model('3002', $check_info, NULL));
+        }
+        $affect_row = $this->giftbook_model->update_giftbook_info($data,array('id'=>$giftbook_id));
+        if (is_numeric($affect_row)) {
+            json_out_put(return_model(0, '更新成功', $affect_row));
+        } else {
+            json_out_put(return_model('3001', '更新失败', NULL));
+        }
+    }
+    
+    /**
+     * 主题列表
+     */
+    public function theme_list(){
+        $d = array('title' => '主题列表', 'msg' => '');
+        $this->layout->view('theme/theme_list', $d);
+    }
+    
+    /**
+     * 系列列表
+     */
+    public function set_list(){
+        $d = array('title' => '系列列表', 'msg' => '');
+        $this->layout->view('set/set_list', $d);
     }
     
     

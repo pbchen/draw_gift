@@ -94,7 +94,7 @@
                             <input name="g_inventory" id="g_inventory" class="input-xlarge form-control" value="<?php echo $goods['store_num'] ?>" type="text">
                         </div>
                     </div>
-                    <label for="g_unit" class="control-label col-sm-2">商品单位</label>
+                    <label for="g_unit" class="control-label col-sm-1">商品单位</label>
                     <div class="col-sm-3">
                         <input name="g_unit" id="g_unit" class="input-xlarge form-control" value="<?php echo $goods['munit'] ?>" type="text">
                     </div>

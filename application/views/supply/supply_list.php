@@ -25,7 +25,7 @@
             <div class="pull-left sort-disabled margin-left-2">
                 <select name="s_status" class="select-medium form-control">
                     <option value="0">全部状态</option>
-                    <option value="1">使用</option>
+                    <option value="1">启用</option>
                     <option value="2">停用</option>
                 </select>
             </div>

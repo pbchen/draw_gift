@@ -17,7 +17,7 @@ class classify_model extends CI_Model {
     const CLASSIFY_START_STATUS = 1;
     const CLASSIFY_STOP_STATUS = 2;
     private $_classify_status = array(
-        '1' => '使用',
+        '1' => '启用',
         '2' => '停用'
     );
     

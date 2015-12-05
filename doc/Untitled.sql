@@ -127,7 +127,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `gift_management`.`gift_classify` (
   `id` INT NOT NULL,
   `name` VARCHAR(45) NULL DEFAULT '分类名称',
-  `status` INT NULL DEFAULT 1:使用 2:停用,
+  `status` INT NULL DEFAULT 1:启用 2:停用,
   `remark` TEXT(1000) NULL DEFAULT '备注',
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
@@ -139,7 +139,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `gift_management`.`gift_brand` (
   `id` INT NOT NULL,
   `name` VARCHAR(45) NULL DEFAULT '品牌名称',
-  `status` INT NULL DEFAULT 1:使用 2:停用,
+  `status` INT NULL DEFAULT 1:启用 2:停用,
   `remark` TEXT(1000) NULL DEFAULT '备注'),
   PRIMARY KEY (`id`)
 ENGINE = InnoDB;
@@ -151,7 +151,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `gift_management`.`gift_supply` (
   `id` INT NOT NULL,
   `name` VARCHAR(45) NULL DEFAULT '品牌名称',
-  `status` INT NULL DEFAULT 1:使用 2:停用,
+  `status` INT NULL DEFAULT 1:启用 2:停用,
   `remark` TEXT(1000) NULL DEFAULT '备注',
   `contact_person` VARCHAR(45) NULL DEFAULT '联系人',
   `phone` VARCHAR(45) NULL DEFAULT '手机号',
@@ -233,7 +233,7 @@ CREATE TABLE IF NOT EXISTS `gift_management`.`gift_card` (
   `num_code` INT NULL DEFAULT 礼品卡号码,
   `passwod` INT NULL DEFAULT 密码,
   `ctime` VARCHAR(45) NULL DEFAULT '生成时间',
-  `status` INT NULL DEFAULT 状态 1: 未激活 2: 已激活 3:已使用 4: 已过期 5: 已退卡 6: 冻结,
+  `status` INT NULL DEFAULT 状态 1: 未激活 2: 已激活 3:已启用 4: 已过期 5: 已退卡 6: 冻结,
   `book_id` INT NULL DEFAULT 礼册id,
   `discount` FLOAT NULL DEFAULT 折扣 0-10,
   PRIMARY KEY (`id`))

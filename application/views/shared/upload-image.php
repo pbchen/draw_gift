@@ -45,7 +45,7 @@
     </li>
     {% } %}
 </script>
-<!---------------------------------加载图片使用------------------------->
+<!---------------------------------加载图片启用------------------------->
 <script src="<?php echo RES; ?>lib/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
 <!-- The Templates plugin is included to render the upload/download listings -->
 <script src="<?php echo RES; ?>lib/jquery-file-upload/js/tmpl.min.js"></script>
@@ -76,7 +76,7 @@
 <!--[if (gte IE 8)&(lt IE 10)]>
 <script src="js/cors/jquery.xdr-transport.js"></script>
 <![endif]-->
-<!---------------------------------加载图片使用结束------------------------->
+<!---------------------------------加载图片启用结束------------------------->
 <script>
 function checkUpload(num){
     if( num !== undefined ){

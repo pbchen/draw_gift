@@ -148,7 +148,7 @@ DROP TABLE IF EXISTS `gift_brand`;
 CREATE TABLE `gift_brand` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL COMMENT '品牌名称',
-  `status` int(11) NOT NULL DEFAULT '1' COMMENT '1:使用 2:停用',
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '1:启用 2:停用',
   `remark` text COMMENT '备注',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -164,7 +164,7 @@ CREATE TABLE `gift_card` (
   `num_code` int(11) DEFAULT NULL COMMENT '礼品卡号码',
   `passwod` int(11) DEFAULT NULL COMMENT '密码',
   `ctime` varchar(45) DEFAULT NULL COMMENT '生成时间',
-  `status` int(11) NOT NULL DEFAULT '3' COMMENT '状态 1: 未激活 2: 已激活 3:已使用 4: 已过期 5: 已退卡 6: 冻结',
+  `status` int(11) NOT NULL DEFAULT '3' COMMENT '状态 1: 未激活 2: 已激活 3:已启用 4: 已过期 5: 已退卡 6: 冻结',
   `book_id` int(11) NOT NULL COMMENT '礼册id',
   `discount` decimal(15,2) DEFAULT NULL COMMENT '折扣 0-10',
   PRIMARY KEY (`id`)
@@ -179,7 +179,7 @@ DROP TABLE IF EXISTS `gift_classify`;
 CREATE TABLE `gift_classify` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL COMMENT '分类名称',
-  `status` int(11) NOT NULL DEFAULT '1' COMMENT '1:使用 2:停用',
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '1:启用 2:停用',
   `remark` text COMMENT '备注',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -193,7 +193,7 @@ DROP TABLE IF EXISTS `gift_supply`;
 CREATE TABLE `gift_supply` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL COMMENT '品牌名称',
-  `status` int(11) NOT NULL DEFAULT '1' COMMENT '1:使用 2:停用',
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '1:启用 2:停用',
   `remark` text COMMENT '备注',
   `contact_person` varchar(45) DEFAULT NULL COMMENT '联系人',
   `phone` varchar(45) DEFAULT NULL COMMENT '手机号',

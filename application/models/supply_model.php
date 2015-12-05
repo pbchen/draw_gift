@@ -17,7 +17,7 @@ class supply_model extends CI_Model {
     const SUPPLY_START_STATUS = 1;
     const SUPPLY_STOP_STATUS = 2;
     private $_supply_status = array(
-        '1' => '使用',
+        '1' => '启用',
         '2' => '停用'
     );
     

@@ -16,7 +16,7 @@
             <div class="pull-left sort-disabled margin-left-2">
                 <select name="s_status" class="select-medium form-control">
                     <option value="0">全部状态</option>
-                    <option value="1">使用</option>
+                    <option value="1">启用</option>
                     <option value="2">停用</option>
                 </select>
             </div>
@@ -52,7 +52,7 @@
         <div class="empty"></div>
         <div class="w-box-header">
             <div class="pull-left sort-disabled">
-                <a class="btn btn-success label" id="add-giftbook">新建</a>
+                <a class="btn btn-success label" href="/giftbook_manage/add_giftbook">新建</a>
                 <a class="btn btn-success label margin-left-2" id="stop-giftbook">停用</a>
                 <a class="btn btn-success label margin-left-2" id="start-giftbook">启用</a>
             </div>
