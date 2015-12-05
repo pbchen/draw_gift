@@ -41,8 +41,6 @@ class giftcard_manage extends CI_Controller {
             }
         } else {
             $d = array('title' => '礼品册管理', 'msg' => '', 'no_load_bootstrap_plugins' => true);
-            $d['theme'] = $this->theme_model->get_theme();
-            $d['set'] = $this->set_model->get_set();
             $this->layout->view('giftcard_manage/add_giftcard', $d);
         }
     }
@@ -55,8 +53,6 @@ class giftcard_manage extends CI_Controller {
         $d = array('title' => '编辑礼册', 'msg' => '', 'no_load_bootstrap_plugins' => true);
         $giftcard = $this->giftcard_model->get_giftcard_info(array('id'=>$id));
         $d['giftcard'] = $giftcard[0];
-        $d['theme'] = $this->theme_model->get_theme();
-        $d['set'] = $this->set_model->get_set();
         $this->layout->view('giftcard_manage/edit_giftcard', $d);
     }
     
@@ -65,8 +61,6 @@ class giftcard_manage extends CI_Controller {
      */
     public function giftcard_list() {
         $d = array('title' => '礼册列表', 'msg' => '');
-        $d['theme'] = $this->theme_model->get_theme();
-        $d['set'] = $this->set_model->get_set();
         $this->layout->view('giftcard_manage/giftcard_list', $d);
     }
     
