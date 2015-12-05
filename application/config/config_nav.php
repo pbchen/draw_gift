@@ -142,10 +142,10 @@ $config['gift_navigation'] = array(
                 ),
         ),
     ),
-    'gift_card'=>array(
+    'giftcard_manage'=>array(
         'id' => 4,
         'title'=>'礼品卡管理',
-        'self_url'=>'gift_card',
+        'self_url'=>'giftcard_manage',
         'is_home'=> false,
         'sort' => 3,
         'display_role'=>array(1),
