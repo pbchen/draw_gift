@@ -12,6 +12,22 @@ MySQL - 5.5.5-10.0.17-MariaDB : Database - gift_management
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+USE `gift_management`;
+
+/*Table structure for table `book_goods_mapping` */
+
+DROP TABLE IF EXISTS `book_goods_mapping`;
+
+CREATE TABLE `book_goods_mapping` (
+  `gift_book_id` int(10) unsigned NOT NULL COMMENT '礼册id',
+  `gift_id` int(10) unsigned NOT NULL COMMENT '商品id',
+  `gift_num` int(11) DEFAULT NULL COMMENT '商品数量',
+  `ctime` datetime NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`gift_book_id`,`gift_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `book_goods_mapping` */
+
 /*Table structure for table `card_order` */
 
 DROP TABLE IF EXISTS `card_order`;
@@ -78,12 +94,30 @@ CREATE TABLE `customer` (
 
 /*Data for the table `customer` */
 
+/*Table structure for table `deliver` */
+
+DROP TABLE IF EXISTS `deliver`;
+
+CREATE TABLE `deliver` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '快递自增ID',
+  `name` varchar(20) NOT NULL COMMENT '快递名称',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态(1:使用中,2:停用)',
+  `remark` varchar(120) DEFAULT NULL COMMENT '备注',
+  `ctime` datetime DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+/*Data for the table `deliver` */
+
+insert  into `deliver`(`id`,`name`,`status`,`remark`,`ctime`) values (1,'中通',1,NULL,NULL),(2,'申通',1,NULL,NULL),(3,'顺丰',1,NULL,NULL),(4,'京东',1,NULL,NULL);
+
 /*Table structure for table `dim` */
 
 DROP TABLE IF EXISTS `dim`;
 
 CREATE TABLE `dim` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '类别ID',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+  `dim_id` int(10) unsigned NOT NULL COMMENT '维度类型ID',
   `dim_type` varchar(45) NOT NULL COMMENT '维度类型，gift_type: 商品类型，deliver:快递列表 3: wechat_style',
   `dim_value` varchar(45) NOT NULL COMMENT '维度值',
   PRIMARY KEY (`id`)
@@ -96,8 +130,9 @@ CREATE TABLE `dim` (
 DROP TABLE IF EXISTS `gift`;
 
 CREATE TABLE `gift` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '礼品id',
-  `groupid` varchar(320) NOT NULL COMMENT '仅针对组合商品，33*2,34*4. 单品次字段为‘’',
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '商品id',
+  `name` varchar(40) NOT NULL COMMENT '商品名称',
+  `groupid` varchar(320) NOT NULL COMMENT '仅针对组合商品，33*2,34*4. 单品次字段为''''',
   `type` int(11) DEFAULT NULL COMMENT 'dim表id',
   `classify_id` int(11) DEFAULT NULL COMMENT '商品分类id',
   `brand_id` int(11) DEFAULT NULL COMMENT '商品品牌id',
@@ -115,9 +150,11 @@ CREATE TABLE `gift` (
   `utime` datetime DEFAULT NULL COMMENT '更新时间',
   `sold_num` int(11) NOT NULL DEFAULT '0' COMMENT '售出数量，初始为0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Data for the table `gift` */
+
+insert  into `gift`(`id`,`name`,`groupid`,`type`,`classify_id`,`brand_id`,`supply_id`,`sale_price`,`buy_price`,`store_num`,`munit`,`deliver_id`,`desciption`,`pic_ids`,`remark`,`status`,`ctime`,`utime`,`sold_num`) values (1,'test','',1,3,2,1,'12.00','2.00',10,'个',1,'搜索','poster.jpg,','test',1,'2015-11-28 20:50:36','2015-12-04 23:57:18',0),(2,'test','1,',2,2,3,1,'12.00','2.00',12,'个',1,'test','vimeo (1).png,','test',1,'2015-11-28 20:52:13','2015-12-01 10:01:56',0),(3,'qwe','1*2,',2,NULL,2,NULL,'10.00','6.00',0,'个',1,'test11','test2.jpg,','',1,'2015-11-30 23:53:14','2015-11-30 23:53:14',0),(4,'qwe','1*2',2,NULL,5,NULL,'12.00','6.00',0,'个',1,'sss','test2.jpg,','',1,'2015-11-30 23:55:45','2015-11-30 23:55:45',0);
 
 /*Table structure for table `gift_book` */
 
@@ -137,9 +174,11 @@ CREATE TABLE `gift_book` (
   `remark` text COMMENT '备注',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '1: 启用 2: 停用',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Data for the table `gift_book` */
+
+insert  into `gift_book`(`id`,`name`,`theme_id`,`set_id`,`wechat_id`,`type_id`,`sale_price`,`group_ids`,`describe`,`pic_id`,`remark`,`status`) values (1,'热热',1,2,1,1,400,'1*23,3*32,','ess',1,'dsf',1),(2,'sscc',3,1,2,3,300,'1*1,',NULL,2,'cccdd',1),(3,'tes',1,1,NULL,1,12,'1*2',NULL,NULL,'ccc',1),(4,'testc',1,1,NULL,1,12,'2*2',NULL,NULL,'ccssddd',1),(5,'热热s',1,2,NULL,1,400,'1*2',NULL,NULL,'dsf',1),(6,'tswd',1,1,NULL,1,10,'1*2','cccc',0,'sdc',1);
 
 /*Table structure for table `gift_brand` */
 
@@ -148,12 +187,14 @@ DROP TABLE IF EXISTS `gift_brand`;
 CREATE TABLE `gift_brand` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL COMMENT '品牌名称',
-  `status` int(11) NOT NULL DEFAULT '1' COMMENT '1:启用 2:停用',
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '1:使用 2:停用',
   `remark` text COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Data for the table `gift_brand` */
+
+insert  into `gift_brand`(`id`,`name`,`status`,`remark`) values (1,'小鸟依人',2,'testa'),(2,'阿三时尚',1,'tests'),(3,'圣诞狂欢',1,'test'),(4,'测试',1,'test');
 
 /*Table structure for table `gift_card` */
 
@@ -164,7 +205,7 @@ CREATE TABLE `gift_card` (
   `num_code` int(11) DEFAULT NULL COMMENT '礼品卡号码',
   `passwod` int(11) DEFAULT NULL COMMENT '密码',
   `ctime` varchar(45) DEFAULT NULL COMMENT '生成时间',
-  `status` int(11) NOT NULL DEFAULT '3' COMMENT '状态 1: 未激活 2: 已激活 3:已启用 4: 已过期 5: 已退卡 6: 冻结',
+  `status` int(11) NOT NULL DEFAULT '3' COMMENT '状态 1: 未激活 2: 已激活 3:已使用 4: 已过期 5: 已退卡 6: 冻结',
   `book_id` int(11) NOT NULL COMMENT '礼册id',
   `discount` decimal(15,2) DEFAULT NULL COMMENT '折扣 0-10',
   PRIMARY KEY (`id`)
@@ -179,12 +220,14 @@ DROP TABLE IF EXISTS `gift_classify`;
 CREATE TABLE `gift_classify` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL COMMENT '分类名称',
-  `status` int(11) NOT NULL DEFAULT '1' COMMENT '1:启用 2:停用',
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '1:使用 2:停用',
   `remark` text COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `gift_classify` */
+
+insert  into `gift_classify`(`id`,`name`,`status`,`remark`) values (1,'生日',1,'test'),(2,'结婚',1,'wer'),(3,'朋友送礼',1,NULL);
 
 /*Table structure for table `gift_supply` */
 
@@ -193,15 +236,17 @@ DROP TABLE IF EXISTS `gift_supply`;
 CREATE TABLE `gift_supply` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL COMMENT '品牌名称',
-  `status` int(11) NOT NULL DEFAULT '1' COMMENT '1:启用 2:停用',
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '1:使用 2:停用',
   `remark` text COMMENT '备注',
   `contact_person` varchar(45) DEFAULT NULL COMMENT '联系人',
   `phone` varchar(45) DEFAULT NULL COMMENT '手机号',
   `qq` varchar(45) DEFAULT NULL COMMENT 'qq号',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Data for the table `gift_supply` */
+
+insert  into `gift_supply`(`id`,`name`,`status`,`remark`,`contact_person`,`phone`,`qq`) values (1,'电信',1,'sss','pbchen','1234567876','123245643'),(2,'网通',2,'hgfds',NULL,NULL,NULL),(3,'国美',1,NULL,NULL,NULL,NULL),(4,'苏宁',2,NULL,NULL,NULL,NULL),(5,'test',1,'qwwz','pbchen','123456543','123654');
 
 /*Table structure for table `map_order_card` */
 
@@ -240,9 +285,11 @@ CREATE TABLE `role` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '角色ID',
   `name` varchar(45) NOT NULL COMMENT '角色名称',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `role` */
+
+insert  into `role`(`id`,`name`) values (1,'普通用户'),(2,'管理员'),(3,'超级管理员');
 
 /*Table structure for table `set` */
 
@@ -254,9 +301,11 @@ CREATE TABLE `set` (
   `remark` text COMMENT '备注',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '1: 启用 2: 停用',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `set` */
+
+insert  into `set`(`id`,`name`,`remark`,`status`) values (1,'春晚','测试',1),(2,'秋意浓','cc',1),(3,'123','测测',1);
 
 /*Table structure for table `theme` */
 
@@ -268,9 +317,11 @@ CREATE TABLE `theme` (
   `remark` text COMMENT '备注',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '1: 启用 2: 停用',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `theme` */
+
+insert  into `theme`(`id`,`name`,`remark`,`status`) values (1,'天花乱坠','双方都',1),(2,'小林别克1','菜市场11111',2),(3,'通天塔','1233饿肚肚',1);
 
 /*Table structure for table `user` */
 
@@ -278,16 +329,20 @@ DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
-  `user_id` varchar(45) DEFAULT NULL COMMENT '账号4-15数字字母任意组合',
+  `user_name` varchar(45) NOT NULL COMMENT '账号4-15数字字母任意组合',
+  `nick_name` varchar(42) DEFAULT NULL,
   `password` varchar(45) DEFAULT NULL COMMENT '密码',
   `email` varchar(45) DEFAULT NULL COMMENT '邮箱',
   `phone` varchar(45) DEFAULT NULL COMMENT '手机号',
   `role` int(11) DEFAULT NULL COMMENT '角色身份id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_name` (`user_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `user` */
+
+insert  into `user`(`id`,`user_name`,`nick_name`,`password`,`email`,`phone`,`role`,`create_time`) values (1,'pbchen','小城别顾','e10adc3949ba59abbe56e057f20f883e','294306275@qq.com','15201421880',1,'2015-11-24 13:14:05');
 
 /*Table structure for table `website` */
 
