@@ -156,5 +156,5 @@
 <!-- tables functions -->
 <script src="<?php echo RES; ?>js/pages/gebo_tables.js"></script>
 
-<script src="<?php echo RES; ?>customer/customer_list.js"></script>
+<script src="<?php echo RES; ?>giftbook/giftbook_list.js"></script>
 

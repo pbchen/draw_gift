@@ -13,7 +13,7 @@
  */
 class customer_model extends CI_Model {
     
-    private $_customer_tb = '`gift_management`.`gift_customer`';
+    private $_customer_tb = '`gift_management`.`customer`';
     private $_customer_status = array(
         '1' => '启用',
         '2' => '停用'
@@ -22,7 +22,21 @@ class customer_model extends CI_Model {
     function __construct() {
         parent::__construct();
     }
-    
+    /**
+     * 获取客户参数
+     * @return data
+     */
+    public function get_customer_params() {
+        $data['name'] = $this->input->post('name');
+        $data['contact_person'] = $this->input->post('contact_person');
+        $data['type'] = $this->input->post('type');
+        $data['phone'] = $this->input->post('phone');
+        $data['postcode'] = $this->input->post('postcode');
+        $data['email'] = $this->input->post('email');
+        $data['address'] = $this->input->post('address');
+        $data['remark'] = $this->input->post('remark');
+        return $data;
+    }
     /**
      * 状态
      * @return type
@@ -51,14 +65,23 @@ class customer_model extends CI_Model {
     public function get_customer_page_where(){
         $cwhere = array();
         if (isset($_REQUEST['id']) && $_REQUEST['id']!=0) {
-            $cwhere['`gift_customer`.`id`'] = $_REQUEST['id'];
+            $cwhere['`customer`.`id`'] = $_REQUEST['id'];
         }
         if (isset($_REQUEST['name']) && $_REQUEST['name'] != '') {
-            $cwhere['`gift_customer`.`name` LIKE '] = '%'.$_REQUEST['name'].'%';
+            $cwhere['`customer`.`name` LIKE '] = '%'.$_REQUEST['name'].'%';
         }
         if (isset($_REQUEST['status']) && $_REQUEST['status']!=0) {
-            $cwhere['`gift_customer`.`status`'] = $_REQUEST['status'];
+            $cwhere['`customer`.`status`'] = $_REQUEST['status'];
         }
+        if (isset($_REQUEST['type']) && $_REQUEST['type']!=0) {
+            $cwhere['`customer`.`type`'] = $_REQUEST['type'];
+        }        
+        if (isset($_REQUEST['contact_person']) && $_REQUEST['contact_person'] != '') {
+            $cwhere['`customer`.`contact_person` LIKE '] = '%'.$_REQUEST['contact_person'].'%';
+        }        
+        if (isset($_REQUEST['phone']) && $_REQUEST['phone'] != '') {
+            $cwhere['`customer`.`phone` LIKE '] = '%'.$_REQUEST['phone'].'%';
+        }   
         return $cwhere;
     }
     
@@ -92,15 +115,13 @@ class customer_model extends CI_Model {
      * @param type $dtparser datatable类库
      */
     public function customer_page_data($dtparser){
-        $cols = array('`gift_customer`.`id`','`gift_customer`.`name`','`gift_customer`.`status`'
-            ,'IF(`gift`.`id`IS NULL,0,COUNT(DISTINCT(`gift`.`id`))) AS `goods_num`','`gift_customer`.`remark`');
-        $sort_cols = array('4'=>'`goods_num`');
+        $cols = array('`customer`.`id`','`customer`.`name`','`customer`.`status`'
+            ,'`customer`.`type`','`customer`.`contact_person`','`customer`.`phone`','`customer`.`address`','`customer`.`status`');
+        $sort_cols = array('4'=>'`customer`.`status`');
         $filter_cols = array();
         //查询主表
         $dtparser->select($cols, $sort_cols, $filter_cols, FALSE);
         $dtparser->from($this->_customer_tb);
-        $dtparser->join('`gift_management`.`gift`', 'gift.customer_id=gift_customer.id', 'left');
-        $group = array('`gift_customer`.`id`');
         //条件
         $cwhere = $this->get_customer_page_where();
         $d['code'] = 0;
@@ -108,14 +129,16 @@ class customer_model extends CI_Model {
         $d['iFilteredTotal'] = 0;
         $d['aaData'] = array();
         if( $d['code'] == 0 ){
-            $d['iTotal'] = $dtparser->count_group($group,$cwhere);
+            $d['iTotal'] = $dtparser->count($cwhere);
             $d['iFilteredTotal'] = $d['iTotal'];
-            $query = $dtparser->get_group($group, $cwhere);
+            $query = $dtparser->get($cwhere);
             $arr = $query->result_array();
             $this->ajax_list_table_data($arr);
             $d['aaData']=$arr;
         }
         return $d;
+        
+        
     }
     
     /**

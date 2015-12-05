@@ -1,20 +1,20 @@
 
 $(document).ready(function () {
     //添加提示框
-    $('#add-customer-modal').modal({
+    $('#add-giftbook-modal').modal({
         backdrop: 'static',
         show: false
     });
     
     //编辑提示框
-    $('#edit-customer-modal').modal({
+    $('#edit-giftbook-modal').modal({
         backdrop: 'static',
         show: false
     });
 
-    var ajax_source = "/customer/customer_list_page";
+    var ajax_source = "/customer_manage/customer_list_page";
     //列表datatable
-    var oTable = $('#customer_tb').dataTable({
+    var oTable = $('#giftbook_tb').dataTable({
         "sDom": "<'row'<'col-sm-6'f>r>t<'row'<'col-sm-2'<'dt_actions'>l><'col-sm-2'i><'col-sm-8'p>>",
         "sPaginationType": "bootstrap_alt",
         "bFilter": false, //禁止过滤
@@ -23,7 +23,7 @@ $(document).ready(function () {
         "bServerSide": true,
         "aoColumnDefs": [
             {
-                "aTargets": [0, 1, 2, 3, 5, 6],
+                "aTargets": [0, 1, 2, 3, 4, 5, 6, 7, 8],
                 "bSortable": false
             }
         ],
@@ -31,10 +31,12 @@ $(document).ready(function () {
             {"mData": "checkbox"},
             {"mData": "name"},
             {"mData": "id"},
+            {"mData": "type"},
+            {"mData": "contact_person"},
+            {"mData": "phone"},
+            {"mData": "address"},
             {"mData": "status"},
-            {"mData": "goods_num"},
-            {"mData": "remark"},
-            {"mData": "oper"}
+            {"mData": "oper"}            
         ],
         "oLanguage": {
             "sLengthMenu": "显示 _MENU_ ",
@@ -64,7 +66,10 @@ $(document).ready(function () {
         var params;
         params = "?id=" + $("input[name=s_id]").val()
                 + "&name=" + encodeURIComponent($("input[name=s_name]").val())
-                + "&status=" + $("select[name=s_status]").val();
+                + "&status=" + $("select[name=s_status]").val()
+                + "&contact_person=" + encodeURIComponent($("input[name=s_contact_person]").val())
+                + "&phone=" + encodeURIComponent($("input[phone=s_phone]").val())
+                + "&type=" + $("select[name=s_type]").val();
         return params;
     }
 
@@ -84,10 +89,10 @@ $(document).ready(function () {
     //停用和启动操作
     function downUpOper(clickId) {
         var status = 1;
-        var msg = '请选择要启用的客户！';
-        if (clickId == 'stop-customer') {
+        var msg = '请选择要启用的礼册！';
+        if (clickId == 'stop-giftbook') {
             status = 2;
-            msg = '请选择要停用的客户！';
+            msg = '请选择要停用的礼册！';
         }
         var flag = true;
         var ids = getCheckedIds();
@@ -97,7 +102,7 @@ $(document).ready(function () {
             return;
         }
         if (flag) {
-            $.post('/customer/update_customer?', {ids: ids, status: status}, function (ret) {
+            $.post('/giftbook_manage/update_giftbook?', {ids: ids, status: status}, function (ret) {
                 var d = $.parseJSON(ret);
                 if (d.errCode == 0) {
                     alertSuccess("#alert-success", '');
@@ -111,34 +116,34 @@ $(document).ready(function () {
         }
     }
     //上架
-    $("#stop-customer").click(function () {
-        downUpOper('stop-customer');
+    $("#stop-giftbook").click(function () {
+        downUpOper('stop-giftbook');
     });
     //下架
-    $("#start-customer").click(function () {
-        downUpOper('start-customer');
+    $("#start-giftbook").click(function () {
+        downUpOper('start-giftbook');
     });
     
     //新建
-    $("#add-customer").click(function(){
-        $("#add-customer-modal").modal('show');
-        $("#add-customer-bnt").die().live('click',function(){
+    $("#add-giftbook").click(function(){
+        $("#add-giftbook-modal").modal('show');
+        $("#add-giftbook-bnt").die().live('click',function(){
             $(".alert-label-error").text('');
             var flag = true;
             var name = $("input[name=a_name]").val();
             var remark = $("textarea[name=a_remark]").val();
            if( name=='' ){
                flag = flag & false;
-               $("#name-error").text('请填写客户名称！');
+               $("#name-error").text('请填写品牌名称！');
            }
            if( remark=='' ){
                flag = flag & false;
                $("#remark-error").text('请填写备注！');
            }
            if(flag){
-               $.post('/customer/add_customer?',{name:name,remark:remark},function(ret){
+               $.post('/giftbook_manage/add_giftbook?',{name:name,remark:remark},function(ret){
                    var d = $.parseJSON(ret);
-                   $("#add-customer-modal").modal('hide');
+                   $("#add-giftbook-modal").modal('hide');
                    if (d.errCode==0) {
                         alertSuccess("#alert-success",'');
                         var oSettings = oTable.fnSettings();
@@ -162,8 +167,8 @@ $(document).ready(function () {
         }
         $("select[name=e_status]").val(status);
         $("textarea[name=e_remark]").val($(this).parent().siblings().eq(5).text());
-        $("#edit-customer-modal").modal('show');
-        $("#edit-customer-bnt").die().live('click',function(){
+        $("#edit-giftbook-modal").modal('show');
+        $("#edit-giftbook-bnt").die().live('click',function(){
             $(".alert-label-error").text('');
             var flag = true;
             var name = $("input[name=e_name]").val();
@@ -171,20 +176,20 @@ $(document).ready(function () {
             var id = $("span[name=e_id]").text();
            if( name=='' ){
                flag = flag & false;
-               $("#edit-name-error").text('请填写客户名称！');
+               $("#edit-name-error").text('请填写品牌名称！');
            }
            if( remark=='' ){
                flag = flag & false;
                $("#edit-remark-error").text('请填写备注！');
            }
            if(flag){
-               $.post('/customer/edit_customer?',{
+               $.post('/giftbook_manage/edit_giftbook?',{
                    id:id,status:$("select[name=e_status]").val(),
                    name:name,remark:remark
                },function(ret){
                    var d = $.parseJSON(ret);
                    if (d.errCode==0) {
-                        $("#edit-customer-modal").modal('hide');
+                        $("#edit-giftbook-modal").modal('hide');
                         alertSuccess("#alert-success",'');
                         var oSettings = oTable.fnSettings();
                         oSettings.sAjaxSource = ajax_source + getSearchParams();
