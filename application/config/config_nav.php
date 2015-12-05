@@ -254,7 +254,7 @@ $config['gift_navigation'] = array(
                 ),
             'wechat_list'=>array(
                     'id' => '3_6',
-                    'title'=>'多媒体列表',
+                    'title'=>'模板列表',
                     'self_url'=>'wechat_list',
                     'is_home'=> false,
                     'sort' => 6,
