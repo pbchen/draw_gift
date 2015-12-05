@@ -15,7 +15,7 @@ class customer_manage extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->model('customer_manage_model');
+        $this->load->model('customer_model');
         $this->load->library('Data_table_parser');
         $this->data_table_parser->set_db($this->db);
         $this->load->library('uc_service', array('cfg' => $this->config->item('alw_uc')));
