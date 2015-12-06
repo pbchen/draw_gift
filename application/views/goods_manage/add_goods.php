@@ -81,7 +81,7 @@
                             <input name="g_inventory" id="g_inventory" class="input-xlarge form-control" value="" type="text">
                         </div>
                     </div>
-                    <label for="g_unit" class="control-label col-sm-1">商品单位</label>
+                    <label for="g_unit" class="g-unit control-label col-sm-1">商品单位</label>
                     <div class="col-sm-3">
                         <input name="g_unit" id="g_unit" class="input-xlarge form-control" value="" type="text">
                     </div>
@@ -113,7 +113,7 @@
                     <span class="btn btn-success fileinput-button" id="fileupload-bnt" title="添加图片">
                         <i class="glyphicon glyphicon-plus"></i>
                         <!-- The file input field used as target for the file upload widget -->
-                        <input id="fileupload-img" type="file" name="files[]" multiple="" data-url="/upload_file/img_upload?" onclick="return checkUpload(5);">
+                        <input id="fileupload-img" type="file" name="files" multiple="" data-url="/upload_file/img_upload?" onclick="return checkUpload(5);">
                     </span>
                 </div>
                 <div class="form-group">
@@ -145,27 +145,32 @@
 
 <?php $this->load->view('shared/upload-file'); ?>
 
+<script src="<?php echo RES; ?>goods_manage/add_goods.js"></script>
+
 <script>
-    
+    var upload_path = "<?php echo UPLOAD; ?>";
     $('#fileupload-img').fileupload({
         formData: {script: true}
         , add: function (e, data) {
             data.submit();
         }
         , done: function (e, data) {
-            console.log(data);
+            if(data.result.errCode==0){
+                var file_name = data.result.val.name;
+                var file_id = data.result.val.id;
+                var file_path = upload_path + data.result.val.path;
+                var html = '<li class="template-download fade none-list-style in">';
+                    html += '<p class="preview">';
+                    html += '<a href="'+file_path+ file_name+'" target="_blank" class="img-uploaded" title="'+file_name+'" >';
+                    html += '<img src="'+file_path+'thumb_'+file_name+'">';
+                    html += '</a></p>';
+                    html += '<span class="delete text-center btn-danger img-uploaded" id="'+file_id+'">删除</span>';
+                    html += '</li>';
+                $("ul.files").append(html);
+            }else{
+                alertError("#alert-error",'文件上传失败');
+            }
         }
     });
-    
-    function checkUpload(num){
-        if( num !== undefined ){
-            MaxNum = num;
-        }
-        var img_li = $("li.none-list-style");
-        if(img_li.length>=MaxNum){
-            return false;
-        }else{
-            return true;
-        }
-    }
+
 </script>

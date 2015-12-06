@@ -15,6 +15,7 @@ class upload_model extends CI_Model {
 
     function __construct() {
         parent::__construct();
+        $this->load->model('media_model');
         $this->load->model('goods_manage_model');
     }
 
@@ -44,6 +45,33 @@ class upload_model extends CI_Model {
             }
         }
         return $where_in;
+    }
+    
+    /**
+     * 处理图片
+     * @return type
+     */
+    public function deal_img_upload($thumb_config){
+        
+        foreach ($_FILES as $file) {
+            $media = array();
+            $media['path'] = 'img/'. date('Ymd') . '/' . substr(create_uniqid(), 0,6) . '/';
+            $path = $this->config->item('upload_path') . $media['path'];
+            if ($file["error"] == 0) {
+                $media['name'] = $file['name'];
+                $path = make_dir($path);
+                $to_file = $path . $file['name'];
+                $thumb_config['source_image'] = $to_file;
+                if(move_uploaded_file($file["tmp_name"],$to_file)!==false
+                    && $this->image_lib->initialize($thumb_config) 
+                    && $this->image_lib->resize()){
+                    $media['id'] = $this->media_model->add_media($media);
+                }else{
+                    $media = array();
+                }
+            }
+        }
+        return $media;
     }
 
     /**

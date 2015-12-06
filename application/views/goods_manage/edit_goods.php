@@ -2,8 +2,10 @@
 <link rel="stylesheet" href="<?php echo RES; ?>lib/multi-select/css/multi-select.css" />
 <!-- enhanced select -->
 <link rel="stylesheet" href="<?php echo RES; ?>lib/chosen/chosen.css" />
-<?php $this->load->view('shared/upload-image-css'); ?>
+
+<?php $this->load->view('shared/upload-file-css'); ?>
 <?php $this->load->view('shared/alert'); ?>
+
 <div class="row">
     <div class="col-sm-12 col-md-12">
         <h3 class="heading">编辑商品</h3>
@@ -94,7 +96,7 @@
                             <input name="g_inventory" id="g_inventory" class="input-xlarge form-control" value="<?php echo $goods['store_num'] ?>" type="text">
                         </div>
                     </div>
-                    <label for="g_unit" class="control-label col-sm-1">商品单位</label>
+                    <label for="g_unit" class="control-label <?php echo $goods['type'] == 1 ? 'col-sm-1' : 'col-sm-2'; ?>">商品单位</label>
                     <div class="col-sm-3">
                         <input name="g_unit" id="g_unit" class="input-xlarge form-control" value="<?php echo $goods['munit'] ?>" type="text">
                     </div>
@@ -122,26 +124,24 @@
                     <!-- The table listing the files available for upload/download -->
                     <span role="presentation" class="table table-striped">
                         <ul class="files">
-                            <?php foreach (explode(',', $goods['pic_ids']) as $img): ?>
-                                <?php if ($img): ?>
-                                    <li class="template-download fade none-list-style in">
-                                        <p class="preview">
-                                            <a href="<?php echo IMAGE_SERVER; ?>files/<?php echo $img; ?>" class="img-uploaded" title="<?php echo $img; ?>" download="<?php echo $img; ?>" data-gallery="">
-                                                <img src="<?php echo IMAGE_SERVER; ?>files/thumbnail/<?php echo $img; ?>">
-                                            </a>
-                                        </p>
-                                        <span class="delete text-center btn-danger img-uploaded" >
-                                            删除
-                                        </span>
-                                    </li>
-                                <?php endif; ?>
+                            <?php foreach ($goods['pic_ids'] as $img): ?>
+                                <li class="template-download fade none-list-style in">
+                                    <p class="preview">
+                                        <a href="<?php echo UPLOAD.$img['path'].$img['name']; ?>" class="img-uploaded" title="<?php echo $img['name']; ?>">
+                                            <img src="<?php echo UPLOAD.$img['path'].'thumb_'.$img['name']; ?>">
+                                        </a>
+                                    </p>
+                                    <span class="delete text-center btn-danger img-uploaded" id="<?php echo $img['id'];?>">
+                                        删除
+                                    </span>
+                                </li>
                             <?php endforeach; ?>
                         </ul>
                     </span>
                     <span class="btn btn-success fileinput-button" id="fileupload-bnt" title="添加图片">
                         <i class="glyphicon glyphicon-plus"></i>
                         <!-- The file input field used as target for the file upload widget -->
-                        <input id="fileupload" type="file" name="files[]" multiple="" onclick="return checkUpload(5);">
+                        <input id="fileupload-img" type="file" name="files" multiple="" data-url="/upload_file/img_upload?" onclick="return checkUpload(5);">
                     </span>
                 </div>
                 <div class="form-group">
@@ -170,7 +170,36 @@
 <script src="<?php echo RES; ?>js/forms/jquery.autosize.min.js"></script>
 <!-- user profile functions -->
 <script src="<?php echo RES; ?>js/pages/gebo_user_profile.js"></script>
-<?php $this->load->view('shared/upload-image'); ?>
+
+<?php $this->load->view('shared/upload-file'); ?>
+
+<script>
+    var upload_path = "<?php echo UPLOAD; ?>";
+    $('#fileupload-img').fileupload({
+        formData: {script: true}
+        , add: function (e, data) {
+            data.submit();
+        }
+        , done: function (e, data) {
+            if(data.result.errCode==0){
+                var file_name = data.result.val.name;
+                var file_id = data.result.val.id;
+                var file_path = upload_path + data.result.val.path;
+                var html = '<li class="template-download fade none-list-style in">';
+                    html += '<p class="preview">';
+                    html += '<a href="'+file_path+ file_name+'" target="_blank" class="img-uploaded" title="'+file_name+'" >';
+                    html += '<img src="'+file_path+'thumb_'+file_name+'">';
+                    html += '</a></p>';
+                    html += '<span class="delete text-center btn-danger img-uploaded" id="'+file_id+'">删除</span>';
+                    html += '</li>';
+                $("ul.files").append(html);
+            }else{
+                alertError("#alert-error",'文件上传失败');
+            }
+        }
+    });
+
+</script>
 
 <script>
     $(document).ready(function () {
@@ -194,6 +223,10 @@
                 $("div.goods-multiple-own").show();
             }
         });
+        
+        $("span.delete").die().live('click',function(){
+            $(this).parent().remove();
+        })
 
         $("#update-goods-ok").on('click', function () {
             var flag = true;

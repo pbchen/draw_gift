@@ -13,6 +13,7 @@
  */
 class upload_file extends CI_Controller {
     
+    
     function __construct() {
         parent::__construct();
         $this->load->model('upload_model');
@@ -32,6 +33,21 @@ class upload_file extends CI_Controller {
             if(in_array($type, array('classify','brand','supply'))){
                 $rt['val'] = $this->upload_model->to_update_gift($id,$type,$where_in);
             }
+        }
+        json_out_put($rt);
+    }
+    
+    /**
+     * 图片上传
+     */
+    public function img_upload(){
+        $thumb_config = $this->config->item('thumb_img');
+        $rt = return_model();
+        $img_info = $this->upload_model->deal_img_upload($thumb_config);
+        if(count($img_info)>0){
+            $rt['val'] = $img_info;
+        }else{
+            $rt = return_model(9001,'上传失败',NULL);
         }
         json_out_put($rt);
     }

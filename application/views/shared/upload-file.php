@@ -94,10 +94,10 @@ function checkUpload(num){
  * @returns {String}
  */
 function getUploadImg(){
-    var img_uploaded = $("a.img-uploaded");
+    var img_uploaded = $("span.img-uploaded");
     var img_name_str = '';
     for(var i=0;i<img_uploaded.length;i++){
-        img_name_str += img_uploaded[i].title + ',';
+        img_name_str += img_uploaded[i].id + ',';
     }
     return img_name_str;
 }

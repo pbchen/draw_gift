@@ -14,11 +14,19 @@ $(document).ready(function () {
         if (value == 1) {
             $("div.goods-multiple-own").hide();
             $("div.goods-single-own").show();
+            $("label.g-unit").removeClass('col-sm-2');
+            $("label.g-unit").addClass('col-sm-1');
         } else {
             $("div.goods-single-own").hide();
             $("div.goods-multiple-own").show();
+            $("label.g-unit").removeClass('col-sm-1');
+            $("label.g-unit").addClass('col-sm-2');
         }
     });
+    
+    $("span.delete").die().live('click',function(){
+        $(this).parent().remove();
+    })
 
     $("#add-goods-ok").die().live('click', function () {
         var flag = true;
