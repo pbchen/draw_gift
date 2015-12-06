@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="<?php echo RES; ?>lib/multi-select/css/multi-select.css" />
 <!-- enhanced select -->
 <link rel="stylesheet" href="<?php echo RES; ?>lib/chosen/chosen.css" />
-<?php $this->load->view('shared/upload-image-css'); ?>
+<?php $this->load->view('shared/upload-file-css'); ?>
 <?php $this->load->view('shared/alert'); ?>
 <div class="row">
     <div class="col-sm-12 col-md-12">
@@ -74,7 +74,8 @@
 <script src="<?php echo RES; ?>js/forms/jquery.autosize.min.js"></script>
 <!-- user profile functions -->
 <script src="<?php echo RES; ?>js/pages/gebo_user_profile.js"></script>
-<?php $this->load->view('shared/upload-image'); ?>
+
+<?php $this->load->view('shared/upload-file'); ?>
 
 <script>
     $(document).ready(function () {
