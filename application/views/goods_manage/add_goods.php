@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="<?php echo RES; ?>lib/multi-select/css/multi-select.css" />
 <!-- enhanced select -->
 <link rel="stylesheet" href="<?php echo RES; ?>lib/chosen/chosen.css" />
-<?php $this->load->view('shared/upload-image-css'); ?>
+<link href="<?php echo RES; ?>lib/jquery-file-upload/css/jquery.fileupload-ui.css" rel="stylesheet" />
 <?php $this->load->view('shared/alert'); ?>
 <div class="row">
     <div class="col-sm-12 col-md-12">
@@ -113,7 +113,7 @@
                     <span class="btn btn-success fileinput-button" id="fileupload-bnt" title="添加图片">
                         <i class="glyphicon glyphicon-plus"></i>
                         <!-- The file input field used as target for the file upload widget -->
-                        <input id="fileupload" type="file" name="files[]" multiple="" onclick="return checkUpload(5);">
+                        <input id="fileupload-img" type="file" name="files[]" multiple="" data-url="/upload_file/file_upload?id=3" onclick="return checkUpload(5);">
                     </span>
                 </div>
                 <div class="form-group">
@@ -142,9 +142,28 @@
 <script src="<?php echo RES; ?>js/forms/jquery.autosize.min.js"></script>
 <!-- user profile functions -->
 <script src="<?php echo RES; ?>js/pages/gebo_user_profile.js"></script>
-<?php $this->load->view('shared/upload-image'); ?>
+<script src="<?php echo RES; ?>lib/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
+<!-- The Templates plugin is included to render the upload/download listings -->
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="<?php echo RES; ?>lib/jquery-file-upload/js/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="<?php echo RES; ?>lib/jquery-file-upload/js/jquery.fileupload.js"></script>
+<script src="<?php echo RES; ?>lib/jquery-file-upload/js/jquery.fileupload-ui.js"></script>
+<!-- The File Upload file processing plugin -->
+<script src="<?php echo RES; ?>lib/jquery-file-upload/js/jquery.fileupload-fp.js"></script>
 
 <script>
+    function checkUpload(num){
+        if( num !== undefined ){
+            MaxNum = num;
+        }
+        var img_li = $("li.none-list-style");
+        if(img_li.length>=MaxNum){
+            return false;
+        }else{
+            return true;
+        }
+    }
     $(document).ready(function () {
         $(".chzn_a").chosen({
             allow_single_deselect: true
@@ -153,6 +172,17 @@
         $('#alert-success').modal({
             backdrop: false,
             show:false
+        });
+        
+        $('#fileupload-img').fileupload({
+            formData:{script: true}
+            , add: function (e, data) {
+                console.log(data);
+                data.submit();
+            }
+            , done: function (e, data) {
+                console.log(data);
+            }
         });
         
         //监听radio事件

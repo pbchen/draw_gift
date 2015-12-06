@@ -5,15 +5,22 @@ $(document).ready(function () {
         backdrop: 'static',
         show: false
     });
-    
+
     //编辑提示框
     $('#add-classify-modal').modal({
         backdrop: 'static',
         show: false
     });
-
+    
+    //导入提示框
+    $('#load-classify-modal').modal({
+        backdrop: 'static',
+        show: false
+    });
+    
     var ajax_source = "/classify/classify_list_page";
     //列表datatable
+    
     var oTable = $('#classify_tb').dataTable({
         "sDom": "<'row'<'col-sm-6'f>r>t<'row'<'col-sm-2'<'dt_actions'>l><'col-sm-2'i><'col-sm-8'p>>",
         "sPaginationType": "bootstrap_alt",
@@ -49,6 +56,7 @@ $(document).ready(function () {
             },
         }
     });
+    
     //查询
     $('button.search').die().live("click", function (e) {
         var oSettings = oTable.fnSettings();
@@ -118,105 +126,92 @@ $(document).ready(function () {
     $("#start-classify").click(function () {
         downUpOper('start-classify');
     });
-    
+
     //新建
-    $("#add-classify").click(function(){
+    $("#add-classify").click(function () {
         $("#add-classify-modal").modal('show');
-        $("#add-classify-bnt").die().live('click',function(){
+        $("#add-classify-bnt").die().live('click', function () {
             $(".alert-label-error").text('');
             var flag = true;
             var name = $("input[name=a_name]").val();
             var remark = $("textarea[name=a_remark]").val();
-           if( name=='' ){
-               flag = flag & false;
-               $("#name-error").text('请填写分类名称！');
-           }
-           if( remark=='' ){
-               flag = flag & false;
-               $("#remark-error").text('请填写备注！');
-           }
-           if(flag){
-               $.post('/classify/add_classify?',{name:name,remark:remark},function(ret){
-                   var d = $.parseJSON(ret);
-                   $("#add-classify-modal").modal('hide');
-                   if (d.errCode==0) {
-                        alertSuccess("#alert-success",'');
+            if (name == '') {
+                flag = flag & false;
+                $("#name-error").text('请填写分类名称！');
+            }
+            if (remark == '') {
+                flag = flag & false;
+                $("#remark-error").text('请填写备注！');
+            }
+            if (flag) {
+                $.post('/classify/add_classify?', {name: name, remark: remark}, function (ret) {
+                    var d = $.parseJSON(ret);
+                    $("#add-classify-modal").modal('hide');
+                    if (d.errCode == 0) {
+                        alertSuccess("#alert-success", '');
                         var oSettings = oTable.fnSettings();
                         oSettings.sAjaxSource = ajax_source + getSearchParams();
                         oTable.fnDraw();
                     } else {
-                        alertError("#alert-error",d.msg);
+                        alertError("#alert-error", d.msg);
                     }
-               });
-           }
+                });
+            }
         });
     })
-    
+
     //编辑
-    $("a.edit").die().live('click',function(){
+    $("a.edit").die().live('click', function () {
         $("span[name=e_id]").text($(this).parent().siblings().eq(2).text());
         $("input[name=e_name]").val($(this).parent().siblings().eq(1).text());
         var status = 1;
-        if($(this).parent().siblings().eq(3).text()=='停用'){
+        if ($(this).parent().siblings().eq(3).text() == '停用') {
             var status = 2;
         }
         $("select[name=e_status]").val(status);
         $("textarea[name=e_remark]").val($(this).parent().siblings().eq(5).text());
         $("#edit-classify-modal").modal('show');
-        $("#edit-classify-bnt").die().live('click',function(){
+        $("#edit-classify-bnt").die().live('click', function () {
             $(".alert-label-error").text('');
             var flag = true;
             var name = $("input[name=e_name]").val();
             var remark = $("textarea[name=e_remark]").val();
             var id = $("span[name=e_id]").text();
-           if( name=='' ){
-               flag = flag & false;
-               $("#edit-name-error").text('请填写分类名称！');
-           }
-           if( remark=='' ){
-               flag = flag & false;
-               $("#edit-remark-error").text('请填写备注！');
-           }
-           if(flag){
-               $.post('/classify/edit_classify?',{
-                   id:id,status:$("select[name=e_status]").val(),
-                   name:name,remark:remark
-               },function(ret){
-                   var d = $.parseJSON(ret);
-                   if (d.errCode==0) {
+            if (name == '') {
+                flag = flag & false;
+                $("#edit-name-error").text('请填写分类名称！');
+            }
+            if (remark == '') {
+                flag = flag & false;
+                $("#edit-remark-error").text('请填写备注！');
+            }
+            if (flag) {
+                $.post('/classify/edit_classify?', {
+                    id: id, status: $("select[name=e_status]").val(),
+                    name: name, remark: remark
+                }, function (ret) {
+                    var d = $.parseJSON(ret);
+                    if (d.errCode == 0) {
                         $("#edit-classify-modal").modal('hide');
-                        alertSuccess("#alert-success",'');
+                        alertSuccess("#alert-success", '');
                         var oSettings = oTable.fnSettings();
                         oSettings.sAjaxSource = ajax_source + getSearchParams();
                         oTable.fnDraw();
                     } else {
                         $("#edit-status-error").text(d.msg);
                     }
-               });
+                });
             }
         });
     })
     
-    $('.uploade-file').fileupload({
-            
-                add: function(e, data) {
-                    console.log('asdfasfd');
-                    data.submit();
-                }
-                , done: function(e, data) {
-                    var data = data.result;
-                    var message = '';
-                    if (message) {
-                        $(".alert").removeClass('hide');
-                        $(".alert").removeClass('alert-success');
-                        $(".alert").addClass('alert-error');
-                        $(".alert-ontice").text('上传失败: ' + message);
-                    } else if (data['count']) {
-
-                    }
-                }
-            });
-
+    //导入
+    $("a.load").die().live('click', function () {
+        $("#load-classify-modal").modal('show');
+        var params = 'id='+$(this).attr('rel');
+         params += '&type=classify';
+        $("#uploadButton").attr('params',params);
+    });
 });
 
 
