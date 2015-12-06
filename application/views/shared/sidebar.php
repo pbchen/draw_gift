@@ -2,7 +2,7 @@
 <a href="javascript:void(0)" class="sidebar_switch on_switch bs_ttip" data-placement="auto right" data-viewport="body" title="Hide Sidebar">Sidebar switch</a>
 <div class="sidebar">
 
-    <div class="sidebar_inner_scroll">
+    <div class="">
         <div class="sidebar_inner">
             <div id="side_accordion" class="panel-group">
                 <?php foreach( $this->config->item('gift_navigation') as $nav_itme):?>
