@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="<?php echo RES; ?>lib/multi-select/css/multi-select.css" />
 <!-- enhanced select -->
 <link rel="stylesheet" href="<?php echo RES; ?>lib/chosen/chosen.css" />
-<?php $this->load->view('shared/upload-image-css'); ?>
+<?php $this->load->view('shared/upload-file'); ?>
 <?php $this->load->view('shared/alert'); ?>
 <div class="row">
     <div class="col-sm-12 col-md-12">
