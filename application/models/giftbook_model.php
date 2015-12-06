@@ -229,9 +229,12 @@ class giftbook_model extends CI_Model {
      * @param type $where_in
      * @return type
      */
-    public function update_giftbook_info($updata, $where = array()) {
+    public function update_giftbook_info($updata, $where = array(),$where_in=array()) {
         if ($where) {
             $this->db->where($where);
+        }
+        if($where_in){
+            $this->db->where_in('id',$where_in);
         }
         $this->db->update($this->_giftbook_tb, $updata);
         return $this->db->affected_rows();

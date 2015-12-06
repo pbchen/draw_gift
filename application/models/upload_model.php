@@ -16,6 +16,7 @@ class upload_model extends CI_Model {
     function __construct() {
         parent::__construct();
         $this->load->model('media_model');
+        $this->load->model('giftbook_model');
         $this->load->model('goods_manage_model');
     }
 
@@ -97,6 +98,31 @@ class upload_model extends CI_Model {
         }
         if(count($updata)>0){
             return $this->goods_manage_model->update_goods_info($updata,array(),$where_in);
+        }else{
+            return 0;
+        }
+    }
+    
+    /**
+     * 更新商品表
+     * @param type $id
+     * @param type $type
+     * @param type $where_in
+     */
+    public function to_update_giftbook($id, $type, $where_in) {
+        switch ($type) {
+            case 'theme':
+                $updata = array('theme_id' => $id);
+                break;
+            case 'set':
+                $updata = array('set_id' => $id);
+                break;
+            default:
+                $updata = array();
+                break;
+        }
+        if(count($updata)>0){
+            return $this->giftbook_model->update_giftbook_info($updata,array(),$where_in);
         }else{
             return 0;
         }

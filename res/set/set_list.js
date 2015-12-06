@@ -196,7 +196,15 @@ $(document).ready(function () {
             }
         });
     })
-
+    
+    //导入
+    $("a.load").die().live('click', function () {
+        $("#load-classify-modal").modal('show');
+        var params = 'id='+$(this).attr('rel');
+         params += '&type=set';
+        $("#uploadButton").attr('params',params);
+    });
+    
 });
 
 

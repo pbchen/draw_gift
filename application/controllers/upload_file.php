@@ -32,6 +32,8 @@ class upload_file extends CI_Controller {
         if(count($where_in)>0){
             if(in_array($type, array('classify','brand','supply'))){
                 $rt['val'] = $this->upload_model->to_update_gift($id,$type,$where_in);
+            }elseif(in_array($type, array('theme','set',))){
+                $rt['val'] = $this->upload_model->to_update_giftbook($id,$type,$where_in);
             }
         }
         json_out_put($rt);
