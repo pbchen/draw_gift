@@ -211,6 +211,9 @@ $(document).ready(function () {
         var params = 'id='+$(this).attr('rel');
          params += '&type=classify';
         $("#uploadButton").attr('params',params);
+        var oSettings = oTable.fnSettings();
+        oSettings.sAjaxSource = ajax_source + getSearchParams();
+        oTable.fnDraw();
     });
 });
 

@@ -82,5 +82,19 @@ if( ! function_exists('download_model') ){
         Header("Content-Disposition:attachment;filename=".$fname);
         die($content);
     }
+//编码
+if( ! function_exists('to_tf8_format') ){
+    function to_tf8_format($str){
+        $charset[1] = substr($str, 0, 1);
+        $charset[2] = substr($str, 1, 1);
+        $charset[3] = substr($str, 2, 1);
+        if (ord($charset[1]) == 239 && ord($charset[2]) == 187 && ord($charset[3]) == 191) {
+            return substr($str, 3);
+        }
+        $encode = mb_detect_encoding($str, array('ASCII', 'UTF-8', 'GB2312', 'GBK', 'BIG5'));
+        return iconv($encode, 'UTF-8', $str);
+    }
+}
+    
 }
 

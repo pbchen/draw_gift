@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="<?php echo RES; ?>lib/multi-select/css/multi-select.css" />
 <!-- enhanced select -->
 <link rel="stylesheet" href="<?php echo RES; ?>lib/chosen/chosen.css" />
-<link href="<?php echo RES; ?>lib/jquery-file-upload/css/jquery.fileupload-ui.css" rel="stylesheet" />
+<?php $this->load->view('shared/upload-file-css'); ?>
 <?php $this->load->view('shared/alert'); ?>
 <div class="row">
     <div class="col-sm-12 col-md-12">
@@ -113,7 +113,7 @@
                     <span class="btn btn-success fileinput-button" id="fileupload-bnt" title="添加图片">
                         <i class="glyphicon glyphicon-plus"></i>
                         <!-- The file input field used as target for the file upload widget -->
-                        <input id="fileupload-img" type="file" name="files[]" multiple="" data-url="/upload_file/file_upload?id=3" onclick="return checkUpload(5);">
+                        <input id="fileupload-img" type="file" name="files[]" multiple="" data-url="/upload_file/img_upload?" onclick="return checkUpload(5);">
                     </span>
                 </div>
                 <div class="form-group">
@@ -142,17 +142,21 @@
 <script src="<?php echo RES; ?>js/forms/jquery.autosize.min.js"></script>
 <!-- user profile functions -->
 <script src="<?php echo RES; ?>js/pages/gebo_user_profile.js"></script>
-<script src="<?php echo RES; ?>lib/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
-<!-- The Templates plugin is included to render the upload/download listings -->
-<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-<script src="<?php echo RES; ?>lib/jquery-file-upload/js/jquery.iframe-transport.js"></script>
-<!-- The basic File Upload plugin -->
-<script src="<?php echo RES; ?>lib/jquery-file-upload/js/jquery.fileupload.js"></script>
-<script src="<?php echo RES; ?>lib/jquery-file-upload/js/jquery.fileupload-ui.js"></script>
-<!-- The File Upload file processing plugin -->
-<script src="<?php echo RES; ?>lib/jquery-file-upload/js/jquery.fileupload-fp.js"></script>
+
+<?php $this->load->view('shared/upload-file'); ?>
 
 <script>
+    
+    $('#fileupload-img').fileupload({
+        formData: {script: true}
+        , add: function (e, data) {
+            data.submit();
+        }
+        , done: function (e, data) {
+            console.log(data);
+        }
+    });
+    
     function checkUpload(num){
         if( num !== undefined ){
             MaxNum = num;
@@ -164,111 +168,4 @@
             return true;
         }
     }
-    $(document).ready(function () {
-        $(".chzn_a").chosen({
-            allow_single_deselect: true
-        });
-        //成功提示框设置
-        $('#alert-success').modal({
-            backdrop: false,
-            show:false
-        });
-        
-        $('#fileupload-img').fileupload({
-            formData:{script: true}
-            , add: function (e, data) {
-                console.log(data);
-                data.submit();
-            }
-            , done: function (e, data) {
-                console.log(data);
-            }
-        });
-        
-        //监听radio事件
-        $('input[name="g_type"]:radio').change(function(){               
-            var value=$(this).val();
-            if(value==1){
-                $("div.goods-multiple-own").hide();
-                $("div.goods-single-own").show();
-            }else{
-                $("div.goods-single-own").hide();
-                $("div.goods-multiple-own").show();
-            }                     
-        });
-        
-        $("#add-goods-ok").die().live('click',function(){
-            var flag = true;
-            var g_name = $("#g_name").val();
-            var g_type = $('input[name="g_type"]:checked ').val();
-            var g_classify = $("#g_classify").val();
-            var g_brand = $("#g_brand").val();
-            var g_supplier = $("#g_supplier").val();
-            var g_ids = $("#g_ids").val();
-            var g_price = $("#g_price").val();
-            var g_cost = $("#g_cost").val();
-            var g_inventory = $("#g_inventory").val();
-            var g_unit = $("#g_unit").val();
-            var g_deliver = $("#g_deliver").val();
-            var g_description = $("#g_description").val();
-            var g_remark = $("#g_rk").val();
-            var pic_ids = getUploadImg();
-            var price_preg = /^([0-9]+[\.]?[0-9]+|\d+)$/;
-            if(g_name==''||g_name==undefined){
-                flag = flag & false;
-                alertError("#alert-error",'商品名称不能为空！');
-                return ;
-            }
-            if(g_type==2){
-                if(g_ids==''){
-                    flag = flag & false;
-                    alertError("#alert-error",'商品ID不能为空！');
-                    return ;
-                }
-            }
-            if(g_price=='' || !price_preg.test(g_price)){
-                flag = flag & false;
-                alertError("#alert-error",'请填写正确的销售价格！');
-                return ;
-            }
-            if(g_cost=='' || !price_preg.test(g_cost)){
-                flag = flag & false;
-                alertError("#alert-error",'请填写正确的采购价格！');
-                return ;
-            }
-            if(g_type==1 && (g_inventory=='' || !/^[0-9]+$/.test(g_inventory))){
-                flag = flag & false;
-                alertError("#alert-error",'请填写商品库存！');
-                return ;
-            }
-            if(g_unit==''){
-                flag = flag & false;
-                alertError("#alert-error",'请填写商品单位！');
-                return ;
-            }
-            if(pic_ids==''){
-                flag = flag & false;
-                alertError("#alert-error",'请上传宣传图片！');
-                return ;
-            }
-            if(flag){
-                $.post('/goods_manage/add_goods',
-                {
-                    name:g_name,groupid:g_ids,type:g_type,classify_id:g_classify,
-                    brand_id:g_brand,supply_id:g_supplier,sale_price:g_price,
-                    buy_price:g_cost,store_num:g_inventory,deliver_id:g_deliver,
-                    munit:g_unit,desciption:g_description,remark:g_remark,
-                    pic_ids:pic_ids
-                },function(ret){
-                    var d = $.parseJSON(ret);
-                    if(d.errCode==0){
-                        alertSuccess("#alert-success",'/goods_manage/add_goods');
-                    }else{
-                        alertError("#alert-error",d.msg);
-                    }
-                });
-            }
-            
-        });
-    });
 </script>

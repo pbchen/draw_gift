@@ -231,10 +231,13 @@ class goods_manage_model extends CI_Model {
      * @param type $where_in
      * @return type
      */
-    public function update_goods_info($updata,$where=array()){
+    public function update_goods_info($updata,$where=array(),$where_in=array()){
         $updata['utime'] = date('Y-m-d H:i:s');
         if($where){
             $this->db->where($where);
+        }
+        if($where_in){
+            $this->db->where_in('id',$where_in);
         }
         $this->db->update($this->_goods_tb,$updata);
         return $this->db->affected_rows();

@@ -12,6 +12,7 @@
  * @author pbchen
  */
 class upload_file extends CI_Controller {
+    
     function __construct() {
         parent::__construct();
         $this->load->model('upload_model');
@@ -25,15 +26,14 @@ class upload_file extends CI_Controller {
         $id = $this->input->get('id');
         $type = $this->input->get('type');
         $rt = return_model();
-        foreach($_FILES as $file){
-            if ($item["error"] == 0) {
-                $content = file_get_contents($item["tmp_name"]);
-                $content = $this->common_function->get_str_utf8($content);
-                $data_arr = explode("\n", $content);
-            } else {
-                $uploadresult = '';
+        $where_in = $this->upload_model->deal_file_upload();
+        $rt['val'] = 0;
+        if(count($where_in)>0){
+            if(in_array($type, array('classify','brand','supply'))){
+                $rt['val'] = $this->upload_model->to_update_gift($id,$type,$where_in);
             }
         }
+        json_out_put($rt);
     }
     
     

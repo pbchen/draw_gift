@@ -30,7 +30,12 @@
                 data.submit();
             }
             , done: function(e, data) {
-                console.log(data);
+                $("#load-classify-modal").modal('hide');
+                if(data.result.errCode==0){
+                    alertSuccess("#alert-success",'');
+                }else{
+                    alertError("#alert-error",'导入失败');
+                }
              }
          });
     

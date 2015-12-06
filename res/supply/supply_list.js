@@ -239,7 +239,16 @@ $(document).ready(function () {
             }
         });
     })
-
+    //导入
+    $("a.load").die().live('click', function () {
+        $("#load-classify-modal").modal('show');
+        var params = 'id='+$(this).attr('rel');
+         params += '&type=supply';
+        $("#uploadButton").attr('params',params);
+        var oSettings = oTable.fnSettings();
+        oSettings.sAjaxSource = ajax_source + getSearchParams();
+        oTable.fnDraw();
+    });
 });
 
 
