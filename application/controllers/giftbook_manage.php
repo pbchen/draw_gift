@@ -38,6 +38,7 @@ class giftbook_manage extends CI_Controller {
                 json_out_put(return_model('3002', $check_info, NULL));
             }
             if ($insert_id = $this->giftbook_model->add_giftbook($data)) {
+                $this->giftbook_model->book_goods_num($insert_id,$data['group_ids']);
                 json_out_put(return_model(0, '添加成功', $insert_id));
             } else {
                 json_out_put(return_model('3001', '添加失败', NULL));
@@ -106,6 +107,7 @@ class giftbook_manage extends CI_Controller {
         }
         $affect_row = $this->giftbook_model->update_giftbook_info($data,array('id'=>$giftbook_id));
         if (is_numeric($affect_row)) {
+            $this->giftbook_model->book_goods_num($giftbook_id,$data['group_ids']);
             json_out_put(return_model(0, '更新成功', $affect_row));
         } else {
             json_out_put(return_model('3001', '更新失败', NULL));

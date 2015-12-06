@@ -30,6 +30,7 @@ class giftbook_model extends CI_Model {
 
     function __construct() {
         $this->load->model('media_model');
+        $this->load->model('bookgoods_model');
         parent::__construct();
     }
 
@@ -85,7 +86,7 @@ class giftbook_model extends CI_Model {
         return $cols = array('`gift_book`.`id` AS `id`', '`gift_book`.`name` AS `name`'
             , '`gift_book`.`sale_price` AS `price`','`gift_book`.`type_id` AS `type`','`gift_book`.`status`'
             , '`theme`.`name` AS `theme`', '`set`.`name` AS `set`'
-            ,'IF(LENGTH(`group_ids`)>0,LENGTH(`group_ids`)-LENGTH(REPLACE(`group_ids`,",","")),0) AS `goods_num`'
+            ,'SUM(`book_goods_mapping`.`gift_num`) AS `goods_num`'
         );
     }
 
@@ -97,11 +98,13 @@ class giftbook_model extends CI_Model {
         $cols = $this->_giftbook_page_cols();
         $sort_cols = array('7' => '`goods_num`');
         $filter_cols = array();
+        $goup_by = array('`gift_book`.`id`');
         //查询主表
         $dtparser->select($cols, $sort_cols, $filter_cols, FALSE);
         $dtparser->from($this->_giftbook_tb);
         $dtparser->join('`gift_management`.`theme`', 'theme.id=gift_book.theme_id', 'left');
         $dtparser->join('`gift_management`.`set`', 'set.id=gift_book.set_id', 'left');
+        $dtparser->join('`gift_management`.`book_goods_mapping`', 'book_goods_mapping.gift_book_id=gift_book.id', 'left');
         //条件
         $cwhere = $this->get_giftbook_page_where();
         $d['code'] = 0;
@@ -109,9 +112,9 @@ class giftbook_model extends CI_Model {
         $d['iFilteredTotal'] = 0;
         $d['aaData'] = array();
         if ($d['code'] == 0) {
-            $d['iTotal'] = $dtparser->count($cwhere);
+            $d['iTotal'] = $dtparser->count_group($goup_by,$cwhere);
             $d['iFilteredTotal'] = $d['iTotal'];
-            $query = $dtparser->get($cwhere);
+            $query = $dtparser->get_group($goup_by,$cwhere);
             $arr = $query->result_array();
             $this->ajax_giftbook_list_table_data($arr);
             $d['aaData'] = $arr;
@@ -163,6 +166,33 @@ class giftbook_model extends CI_Model {
             $giftbook_num[$row->id] = $row->store_num;
         }
         return $giftbook_num;
+    }
+    
+    /**
+     * 添加或修改礼册商品数量
+     * @param type $giftbook_id
+     * @param type $group_ids
+     * @return type
+     */
+    public function book_goods_num($giftbook_id,$group_ids){
+        $aff_row = 0;
+        $group_id_arr = explode(',', $group_ids);
+        $data = array();
+        foreach ($group_id_arr as $g){
+            if( ! $g )  continue;
+            $g_info = explode('*', $g);
+            $num = isset($g_info[1])?$g_info[1]:1;
+            $data[] = array(
+                'gift_book_id'=>$giftbook_id,
+                'gift_id'=>$g_info[0],
+                'gift_num'=>$num,
+                'ctime'=>  date('Y-m-d H:i:s')
+            );
+        }
+        foreach ($data as $d){
+            $aff_row += $this->bookgoods_model->replace_into_bg($d);
+        }
+        return $aff_row;
     }
 
     /**
@@ -219,6 +249,7 @@ class giftbook_model extends CI_Model {
             $v['oper'] .= "<a rel='{$v['id']}'class='add oper'>&nbsp;&nbsp;&nbsp;入库</a>";
             $v['status'] = isset($this->_giftbook_status[$v['status']]) ? $this->_giftbook_status[$v['status']] : '';
             $v['type'] = isset($this->_giftbook_type[$v['type']]) ? $this->_giftbook_type[$v['type']] : '';
+            $v['goods_num'] = $v['goods_num']? $v['goods_num']:0;
         }
     }
 
