@@ -29,6 +29,7 @@ class giftbook_model extends CI_Model {
     );
 
     function __construct() {
+        $this->load->model('media_model');
         parent::__construct();
     }
 
@@ -184,7 +185,11 @@ class giftbook_model extends CI_Model {
             $this->db->where($where);
         }
         $query = $this->db->get();
-        return $query->result_array();
+        $res = $query->result_array();
+        foreach ($res as &$value) {
+            $value['pic_id'] = $this->media_model->get_media(array(),array('id'=>explode(',',$value['pic_id'])));
+        }
+        return $res;
     }
 
     /**
