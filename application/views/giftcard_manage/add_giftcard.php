@@ -455,7 +455,7 @@ var giftArr = [];
                 },function(ret){
                     var d = $.parseJSON(ret);
                     if(d.errCode==0){
-                        alertSuccess("#alert-success",'/giftbook_manage/add_giftbook');
+                        alertSuccess("#alert-success",'/giftcard_manage/add_giftcard');
                     }else{
                         alertError("#alert-error",d.msg);
                     }

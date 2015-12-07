@@ -15,7 +15,9 @@ class giftcard_manage extends CI_Controller {
     
     function __construct() {
         parent::__construct();
+        $this->load->model('user_model');
         $this->load->model('giftcard_model');
+        $this->load->model('customer_model');
         $this->load->library('Data_table_parser');
         $this->data_table_parser->set_db($this->db);
         $this->load->library('uc_service', array('cfg' => $this->config->item('alw_uc')));
@@ -40,7 +42,10 @@ class giftcard_manage extends CI_Controller {
                 json_out_put(return_model('3001', '添加失败', NULL));
             }
         } else {
-            $d = array('title' => '礼品册管理', 'msg' => '', 'no_load_bootstrap_plugins' => true);
+            $d = array('title' => '礼品卡管理', 'msg' => '', 'no_load_bootstrap_plugins' => true);
+            $d['sales'] = $this->user_model->get_user();
+            $d['customer'] = $this->customer_model->get_customer();
+            $d['wechat'] = $this->wechat_model->get_wechat();
             $this->layout->view('giftcard_manage/add_giftcard', $d);
         }
     }
