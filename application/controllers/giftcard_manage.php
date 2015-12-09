@@ -18,6 +18,8 @@ class giftcard_manage extends CI_Controller {
         $this->load->model('user_model');
         $this->load->model('giftcard_model');
         $this->load->model('customer_model');
+        $this->load->model('wechat_model');
+        $this->load->model('giftbook_model');
         $this->load->library('Data_table_parser');
         $this->data_table_parser->set_db($this->db);
         $this->load->library('uc_service', array('cfg' => $this->config->item('alw_uc')));
@@ -26,17 +28,13 @@ class giftcard_manage extends CI_Controller {
     /**
      * 添加商品
      */
-    public function add_giftcard() {
+    public function giftcard_order() {
         //no_load_bootstrap_plugins 
         //不加载 bootstrap.plugins.min.js 加载后影响图片上传插件 
         //默认是加载的
         if ($_POST) {
-            $data = $this->giftcard_model->get_giftcard_params();
-            $data['status'] = 1;
-            if ($check_info = $this->goods_manage_model->check_goods_num($data['group_ids'], 1)) {
-                json_out_put(return_model('3002', $check_info, NULL));
-            }
-            if ($insert_id = $this->giftcard_model->add_giftcard($data)) {
+            $data = $this->giftcard_model->get_giftcard_order_params();
+            if ($insert_id = $this->giftcard_model->add_giftcard_order($data)) {
                 json_out_put(return_model(0, '添加成功', $insert_id));
             } else {
                 json_out_put(return_model('3001', '添加失败', NULL));
@@ -46,7 +44,8 @@ class giftcard_manage extends CI_Controller {
             $d['sales'] = $this->user_model->get_user();
             $d['customer'] = $this->customer_model->get_customer();
             $d['wechat'] = $this->wechat_model->get_wechat();
-            $this->layout->view('giftcard_manage/add_giftcard', $d);
+            $d['giftbook'] = $this->giftbook_model->get_giftbook_info();
+            $this->layout->view('giftcard_manage/giftcard_order', $d);
         }
     }
     
@@ -64,16 +63,16 @@ class giftcard_manage extends CI_Controller {
     /**
      * 礼册列表
      */
-    public function giftcard_list() {
+    public function giftcard_order_list() {
         $d = array('title' => '礼册列表', 'msg' => '');
-        $this->layout->view('giftcard_manage/giftcard_list', $d);
+        $this->layout->view('giftcard_manage/giftcard_order_list', $d);
     }
     
     /**
      * 礼册列表分页
      */
-    public function giftcard_list_page() {
-        $d = $this->giftcard_model->giftcard_page_data($this->data_table_parser);
+    public function giftcard_order_list_page() {
+        $d = $this->giftcard_model->giftcard_order_list_page_data($this->data_table_parser);
         $this->load->view('json/datatable', $d);
     }
     
